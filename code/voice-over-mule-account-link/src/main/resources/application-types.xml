@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="loginRequest" format="json">
+      <types:shape format="weave" example="examples/loginRequest.json"><![CDATA[%dw 2.0
+
+type loginRequest = {|
+  client_id: String, 
+  response_type: String, 
+  state: String, 
+  redirect_uri: String
+|} {"example": "{\\\"client_id\\\":\\\"1234\\\",\\\"response_type\\\":\\\"code\\\",\\\"state\\\":\\\"A2SAAEAEM6NhfHAnL2n3-OdE8I0vBMB8A7Jqfgv--GkbGKMhetxy1wMaj0a6m4MvtOMmE2JmyrGdJ2qZYUITOgKF35KvMx-kv4y9Aaoke8_c8CO2jxX1oZhhrF4QypoKVPdpeeDEIt6FDy7XEfTZwbRE2hRuhsACRZqrHDe8-DMspx4UI4U9zG2fvykJyAkLcMPUj3rZ6nZaMHr61HgUh_tlcR81j8wkxOJTpUyI_Cg21v916ELTGRr99YPAfs_KaX7_pi78KVIoCsy4jLWIGIx0nf4dYXt7-A_f8x2tVeWwQQpqrdVDn1Rgsn75uzeAFJgbq1E9IOePGWB9qXG-hFjWTuJoFcZCYmVGq_Se8JS0DAHlLJIWi9Lc3em6dFtH9PUXebLPx75U7YYmFQSX7cZ8lelkuX3QL8PiXLTHA1FzG4oLENqrkUkoIjLry5azfxlrxgy4JhFKZ6efoYS2IW_-6MsU61uSbYHplALKwYZ5LlkXwalvDDBDW8GtqR3kuCFPgci2ztl-SB1fOa-gZL9pZ4JKsncFpGb3evcPWnDr7tgnQhsU-6XtHiQiejDsmcAREgQaTT9FMtgtry-8Nyb_UEkDgIuobAoOstnjS0j9KBwPVtOKZ8FAWHeNmfvqg2WMUqnNOLXE-5R3zIgJpBbgJAeB2PsQHGEbdtU5QSTOCt_aAt3nQE\\\",\\\"redirect_uri\\\":\\\"https:\\/\\/layla.amazon.com\\/api\\/skill\\/link\\/M3H8C1X2FHUAYW\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="loginResponse" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="postLoginRequest" format="json">
+      <types:shape format="weave" example="examples/postLoginRequest.json"><![CDATA[%dw 2.0
+
+type postLoginRequest = {|
+  username: String, 
+  password: String, 
+  client_id: String, 
+  response_type: String, 
+  state: String, 
+  redirect_uri: String
+|} {"example": "{\\\"username\\\":\\\"arpitsrm11\\\",\\\"password\\\":\\\"xxxxm\\\",\\\"client_id\\\":\\\"1234\\\",\\\"response_type\\\":\\\"token\\\",\\\"state\\\":\\\"A2SAAEAEMmceZV4w7WysEKCviBbDm8CADk0I9udJxFa34EDpbWf9Q3d4h3X1C06iV-gzL_8EUgH--HxcmaIw31Axezr9jwrA4924RFJ244QVKpG1J9llQi94HbgXWIqSFgXPnaSi1GRbuN2a7lIxqop3a7sJgFu5fGjdQkt4Sbt0QocgeR7-Fl4nxMHsbj9m-Vjt6Yi21wPBlnlPKyRinUfFL8JRfXpKYzpJfRaKJM2A-re6VQnUASP8ClfW02GUlo9cyGEFH-iLPSS-odkh6H_YV-WNhEs6LGe4Px9iMV5H2HJ6l7eqRrdfSMYBVUs5pw2Kb3-Bf7y-zOMy9BHA-YbZ_TMp1Kc-st2n55B4-OiMqjIJd3nP3DOgZ4cyRmxkgArbjmoB3TtEBrptYUHturb0hmHUiIYwAIklM1oP-F0RpHTzm7x2LaAOoKPPkv1qWYmoRSY75t7oX5XWJ8R4Exi_Peat0F6AmR_XeT6yuNtzjcKHuYziVZm30h1gnq29KCojX80MULcfnd-iA7uZxSyW0dNIGL6RqOwC_gKAbkfL2nZ4C0cNofEhlXPtLp8Ozm40qIPiRzBl6HTScnaSPtOYmdEe7MvvL3EWWUoB1p03QjxrOdw0zkcXXbpzfEd7m2d9faK47gildfcSZ65TVQW-ZPV6jFl-3umDw5mjDWfSZFsTtqCLXa80e6y_AsLhylFNXgWoc2z\\\",\\\"redirect_uri\\\":\\\"https:\\/\\/layla.amazon.com\\/spa\\/skill\\/account-linking-status.html?vendorId=M3H8C1X2FHUAYW\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="ap_tokenRequest" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+    <types:type name="ap_tokenResponse" format="json">
+      <types:shape format="weave" example="examples/AnypointTokenResponse.json"><![CDATA[%dw 2.0
+
+type ap_tokenResponse = {|
+  accessToken: String, 
+  userName: String, 
+  email: String, 
+  userId: String
+|} {"example": "{\\\"accessToken\\\":\\\"41ec685d-81c3-47a3-b60a-176c13d1b7d0\\\",\\\"userName\\\":\\\"bearer\\\",\\\"email\\\":\\\"ff@jj.com\\\",\\\"userId\\\":\\\"fj876jhb76\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#0f48fd30-68fa-41fa-85f6-68cd869c8b8b">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="loginRequest"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#f02f6945-8610-4c69-b21a-7fb554a94433">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="postLoginRequest"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4baa3f92-0772-4df1-83d6-2e2fd491fc1b">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="ap_tokenResponse"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#06dcccac-d14d-42c6-9392-e999aceb0c24">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ap_tokenResponse"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#59879b3d-5b2b-4004-9761-ac099ec9392c">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="ap_tokenResponse"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

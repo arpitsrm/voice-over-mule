@@ -1,0 +1,18 @@
+#%RAML 1.0 Library
+types:
+  appOperationReq:
+    type: object
+    properties:
+      xh-env-id:
+        type: string | nil
+        required: false
+      user-id:
+        type: string | nil
+        required: false
+      ap-access-token:
+        type: string | nil
+        required: false
+      operation:
+        type: string
+        required: true
+        example: "start"

@@ -1,0 +1,8 @@
+{
+  "username": "arpitsrm11",
+  "password": "dddm",
+  "client_id": "1234",
+  "response_type": "token",
+  "state": "A2SAAEAEMmceZV4w7WysEKCviBbDm8CADk0I9udJxFa34EDpbWf9Q3d4h3X1C06iV-gzL_8EUgH--HxcmaIw31Axezr9jwrA4924RFJ244QVKpG1J9llQi94HbgXWIqSFgXPnaSi1GRbuN2a7lIxqop3a7sJgFu5fGjdQkt4Sbt0QocgeR7-Fl4nxMHsbj9m-Vjt6Yi21wPBlnlPKyRinUfFL8JRfXpKYzpJfRaKJM2A-re6VQnUASP8ClfW02GUlo9cyGEFH-iLPSS-odkh6H_YV-WNhEs6LGe4Px9iMV5H2HJ6l7eqRrdfSMYBVUs5pw2Kb3-Bf7y-zOMy9BHA-YbZ_TMp1Kc-st2n55B4-OiMqjIJd3nP3DOgZ4cyRmxkgArbjmoB3TtEBrptYUHturb0hmHUiIYwAIklM1oP-F0RpHTzm7x2LaAOoKPPkv1qWYmoRSY75t7oX5XWJ8R4Exi_Peat0F6AmR_XeT6yuNtzjcKHuYziVZm30h1gnq29KCojX80MULcfnd-iA7uZxSyW0dNIGL6RqOwC_gKAbkfL2nZ4C0cNofEhlXPtLp8Ozm40qIPiRzBl6HTScnaSPtOYmdEe7MvvL3EWWUoB1p03QjxrOdw0zkcXXbpzfEd7m2d9faK47gildfcSZ65TVQW-ZPV6jFl-3umDw5mjDWfSZFsTtqCLXa80e6y_AsLhylFNXgWoc2z",
+  "redirect_uri": "https://layla.amazon.com/spa/skill/account-linking-status.html?vendorId=M3H8C1X2FHUAYW"
+}

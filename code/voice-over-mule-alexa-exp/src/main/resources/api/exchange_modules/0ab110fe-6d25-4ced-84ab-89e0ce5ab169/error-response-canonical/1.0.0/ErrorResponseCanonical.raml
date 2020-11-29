@@ -1,0 +1,82 @@
+#%RAML 1.0 Library
+types:
+  Standard:
+    displayName: Response Error Standard Format
+    type: object
+    properties:
+      errorCode:
+        required: true
+        maxLength: 255
+        example: XH-001-DATA-ERROR
+        description: Error Code for client representation.
+        type: string
+      transactionId:
+        required: true
+        maxLength: 120
+        example: 10802010XJJA20072101EMITD2678E3AE23D
+        description: Transaction ID is part of the request header.
+        type: string
+      details:
+        required: false
+        description: Property description
+        type: array
+        items: 
+          type: object
+          properties:
+            code:
+              required: false
+              maxLength: 50
+              description: A human-readable, unique name for the error. It is recommended that this value would be retrieved from the error before sending the error response.
+              type: string
+              example: VALIDATION_ERROR
+              default: VALIDATION_ERROR
+            description:
+              required: false
+              type: string
+            remarks:
+              required: false
+              type: string
+            errors:
+              required: false
+              description: 'If an error occur, this section will have an information for the error for specific product item. If the product item was successfully created, the error field is not visible.'
+              type: array
+              items:
+                
+                type: Error
+      message: 
+        maxLength: 255
+        description: Used for localization
+        type: string
+        example: Error was encountered while processing the account creation request
+        default: Unknown Error         
+      status: 
+        maxLength: 255
+        description: 'FAILED'
+        type: string
+        example: 'FAILED'
+        default: 'FAILED'
+  Error:
+    displayName: Response Error Item
+    description: Error Response
+    type: object
+    properties:
+      code:
+        required: false
+        example: REQUIRED_FIELD_MISSING
+        description: |
+          Status Code
+        type: string
+      message:
+        required: false
+        example: Required fields are missing ...
+        description: |+
+          Message description in english
+
+        type: string
+      description:
+        required: false
+        type: string
+      remarks:
+        required: false
+        type: string
+         

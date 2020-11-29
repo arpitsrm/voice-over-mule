@@ -1,0 +1,862 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "voice over mule",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StartOverIntent",
+                    "samples": []
+                },
+                {
+                    "name": "FindAppStatusIntent",
+                    "slots": [
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "samples": [
+                                "The application is in  {organization} organization",
+                                "My app lies under {organization}",
+                                "{organization}"
+                            ]
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "samples": [
+                                "its {environment}",
+                                "the environment name is {environment}",
+                                "My api lies under {environment} environment",
+                                "{environment}"
+                            ]
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "search for {appName}"
+                            ]
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "samples": [
+                                "app number {appIdentifier}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "get status",
+                        "find status",
+                        "show me my app status under {organization} organization",
+                        "tell me my app status in {environment} environment under {organization} organization ",
+                        "find status of an application",
+                        "get me status of an app",
+                        "tell me my app status under {organization} organization in {environment} environment",
+                        "Find status of my app"
+                    ]
+                },
+                {
+                    "name": "AppOperationsIntent",
+                    "slots": [
+                        {
+                            "name": "operation",
+                            "type": "appOperation",
+                            "samples": [
+                                "{operation} an app",
+                                "{operation}"
+                            ]
+                        },
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "samples": [
+                                "{organization}"
+                            ]
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "samples": [
+                                "{environment}"
+                            ]
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "search for {appName}"
+                            ]
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "samples": [
+                                "app number {appIdentifier}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "perform app operation",
+                        "app operation",
+                        "Perform operation on an app",
+                        "I want you to {operation} an application",
+                        "{operation} an app"
+                    ]
+                },
+                {
+                    "name": "CreateAlertIntent",
+                    "slots": [
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "search for {appName}"
+                            ]
+                        },
+                        {
+                            "name": "orgName",
+                            "type": "organization",
+                            "samples": [
+                                "{orgName}"
+                            ]
+                        },
+                        {
+                            "name": "envName",
+                            "type": "environment",
+                            "samples": [
+                                "{envName}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "create alert for salesforce app under {envName} environment in {orgName} organization ",
+                        "set up an alert",
+                        "create an alert"
+                    ]
+                },
+                {
+                    "name": "YesNoIntent",
+                    "slots": [
+                        {
+                            "name": "yes_no",
+                            "type": "yes_no",
+                            "samples": [
+                                "{yes_no}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{yes_no}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "organization",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "environment",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "appIdentifier",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "20",
+                                "synonyms": [
+                                    "twenty",
+                                    "20"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "19",
+                                "synonyms": [
+                                    "19",
+                                    "nineteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "18",
+                                "synonyms": [
+                                    "18",
+                                    "eighteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "17",
+                                "synonyms": [
+                                    "17",
+                                    "seventeen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "16",
+                                "synonyms": [
+                                    "16",
+                                    "sixteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "15",
+                                "synonyms": [
+                                    "15",
+                                    "fifteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "14",
+                                "synonyms": [
+                                    "14",
+                                    "fourteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "13",
+                                "synonyms": [
+                                    "13",
+                                    "thirteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "12",
+                                "synonyms": [
+                                    "12",
+                                    "twelve"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "11",
+                                "synonyms": [
+                                    "11",
+                                    "eleven"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "10",
+                                "synonyms": [
+                                    "10",
+                                    "ten"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "9",
+                                "synonyms": [
+                                    "9",
+                                    "nine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "8",
+                                "synonyms": [
+                                    "8",
+                                    "eight"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "7",
+                                "synonyms": [
+                                    "7",
+                                    "seven"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "6",
+                                "synonyms": [
+                                    "6",
+                                    "six"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "5",
+                                "synonyms": [
+                                    "5",
+                                    "five"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "4",
+                                "synonyms": [
+                                    "4",
+                                    "four"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "3",
+                                "synonyms": [
+                                    "3",
+                                    "three"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "2",
+                                "synonyms": [
+                                    "2",
+                                    "two"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "1",
+                                "synonyms": [
+                                    "1",
+                                    "one"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "appOperation",
+                    "values": [
+                        {
+                            "id": "restart",
+                            "name": {
+                                "value": "restart",
+                                "synonyms": [
+                                    "restart",
+                                    "re-run",
+                                    "re deploy",
+                                    "re-deploy",
+                                    "re run"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "stop",
+                            "name": {
+                                "value": "stop",
+                                "synonyms": [
+                                    "shut off",
+                                    "close down",
+                                    "close",
+                                    "shut down",
+                                    "stop",
+                                    "undeploy"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "start",
+                            "name": {
+                                "value": "start",
+                                "synonyms": [
+                                    "start up",
+                                    "start",
+                                    "deploy",
+                                    "run"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "yes_no",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "no",
+                                "synonyms": [
+                                    "no",
+                                    "nahi",
+                                    "naah",
+                                    "nopes",
+                                    "nope"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yes",
+                                "synonyms": [
+                                    "yes",
+                                    "sure",
+                                    "yup",
+                                    "yups",
+                                    "maybe",
+                                    "hmm",
+                                    "of course",
+                                    "i suppose",
+                                    "why not",
+                                    "yo",
+                                    "yeah"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "FindAppStatusIntent",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.836252553047.1159574597265"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.1564583783806.665344851397.810169931833"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.836252553047.1384991201098"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.1564583783806.1586722157283.609182391625"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1218815445371.1329633548592"
+                            }
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.790663994835.129220602503"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.1564583783806.1521189713537.99189849917"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "AppOperationsIntent",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "operation",
+                            "type": "appOperation",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.755086702547.928769460937"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.304450715066.674860287474.975371468949"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.402180769846.636512913587"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.304450715066.501824017237.1147755682825"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.402180769846.846536201740"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.304450715066.128078955929.889879291374"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.402180769846.777224443076"
+                            }
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.755086702547.861734554598"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "CreateAlertIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.786611265266.141295668255"
+                            }
+                        },
+                        {
+                            "name": "orgName",
+                            "type": "organization",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.786611265266.813705724756"
+                            }
+                        },
+                        {
+                            "name": "envName",
+                            "type": "environment",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.786611265266.542155632825"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "YesNoIntent",
+                    "delegationStrategy": "ALWAYS",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "yes_no",
+                            "type": "yes_no",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1487269270978.1106005781854"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1530728025884.1226554809176",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please select a category"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.836252553047.1159574597265",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "can you tell me the organization under which your app lies?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the organization"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the business organization"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.836252553047.1384991201098",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Mention the environment name "
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the environment"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Can you tell me the environment under which your api lies?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the environment under {organization} organization"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.790663994835.129220602503",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please chose an app by number. You can say, app number, followed by the app nmber"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.303477031096.1352519282510",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please select an app by key word or provide the number associated with it"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.755086702547.928769460937",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "please state the required operation. You can say start, stop or restart"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.755086702547.861734554598",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the number correspoding to the app. You can say start app number, followed by the app number"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.786611265266.813705724756",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the business organization under which the application lies"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.786611265266.542155632825",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the environment name"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1218815445371.1329633548592",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the app keyword. You can say, search for, followed by the appName"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.786611265266.141295668255",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the app search keyword and I will try to search it out for you. You can say, Search for, followed by the app name"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.402180769846.777224443076",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the app name keyword to perform {operation} operation on. You can say search for, followed by the search keyword."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.402180769846.636512913587",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the business organization under which your app lies"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.402180769846.846536201740",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "State the environment under {organization} environment"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1487269270978.1106005781854",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please aswer with a yes or a no"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1564583783806.665344851397.810169931833",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I was unable to find the organization with name {organization} . Please state the organization again"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1564583783806.1586722157283.609182391625",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I was unable to find the environment with name {environment} . Please state the environment again"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1564583783806.1521189713537.99189849917",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "This is an invalid app number. Please provide a valid one"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.304450715066.674860287474.975371468949",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please state a valid operation. You can say start, stop or restart"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.304450715066.501824017237.1147755682825",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I could not find  {organization} organization. Please provide a valid organization"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.304450715066.128078955929.889879291374",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I was unable to find  the environment with name {environment} . Please state the environment again"
+                    }
+                ]
+            }
+        ]
+    }
+}

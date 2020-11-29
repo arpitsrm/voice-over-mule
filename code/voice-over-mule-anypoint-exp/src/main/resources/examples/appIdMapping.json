@@ -1,0 +1,24 @@
+{
+	"userInfo": {
+		"userName": "",
+		"accountType": "titanium"
+	},
+	"idMapping": [
+		{
+			"orgName": "Integration",
+			"orgId": "123213",
+			"environments": [
+				{
+					"envName": "Development",
+					"envId": "12345",
+					"apps": [
+						{
+							"appName": "",
+							"appId": ""
+						}
+					]
+				}
+			]
+		}
+	]
+}

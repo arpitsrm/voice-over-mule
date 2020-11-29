@@ -1,0 +1,91 @@
+displayName: <<object-name>>
+description: <<object-name>>
+responses:
+  200:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: object
+        example: <<response-200-example>>
+  400:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-400-data-error-example>>
+  401:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-401-unauthorized-example>>
+  403:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-403-forbidden-example>>
+  500:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-500-process-error-example>>
+  501:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-501-not-implemented-example>>
+  503:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-503-service-unavailable-example>>
+  504:
+    headers:
+      x-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-504-gateway-timeout-example>>

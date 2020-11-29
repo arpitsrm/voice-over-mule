@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<sub-flow name="sf-create-alert-intent-handler" doc:id="8a34eff1-7d23-4844-bbfb-72a0aed3cd7c" >
+		<set-payload value="#[message.payload]" doc:name="Set Payload CreateAlertIntentRequest" doc:id="c2f4ff74-99b5-49de-8221-389ced2f510c" mimeType="application/json" />
+		<ee:transform doc:name="DW SET Create Intent Response" doc:id="c0de3b82-32fc-4251-9095-3f5510348724">
+					<ee:message>
+				<ee:set-payload resource="dataweave/createAlertIntentResponse.dwl" />
+					
+
+</ee:message>
+				</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="1b844879-5279-441a-9465-68423846b6fb" message="#[payload]"/>
+	
+</sub-flow>
+</mule>

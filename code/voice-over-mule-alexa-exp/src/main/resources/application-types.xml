@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="request_launch_account_link" format="json">
+      <types:shape format="weave" example="examples/LaunchRequest_Account_Link.json"><![CDATA[%dw 2.0
+
+type request_launch_account_link = {|
+  version: String, 
+  session: {|
+    new: Boolean, 
+    sessionId: String, 
+    application: {| applicationId: String |}, 
+    user: {| userId: String |}
+  |}, 
+  context: {|
+    Viewports: Array<{|      "type": String,       id: String,       shape: String,       dpi: Number {"typeId": "int"},       presentationType: String,       canRotate: Boolean,       configuration: {|        current: {|          mode: String,           video: {| codecs: Array<String> |}, 
+          size: {|
+            "type": String, 
+            pixelWidth: Number {"typeId": "int"}, 
+            pixelHeight: Number {"typeId": "int"}
+          |}
+        |}
+      |}
+    |}>, 
+    Viewport: {|
+      experiences: Array<{|        arcMinuteWidth: Number {"typeId": "int"},         arcMinuteHeight: Number {"typeId": "int"},         canRotate: Boolean,         canResize: Boolean      |}>, 
+      mode: String, 
+      shape: String, 
+      pixelWidth: Number {"typeId": "int"}, 
+      pixelHeight: Number {"typeId": "int"}, 
+      dpi: Number {"typeId": "int"}, 
+      currentPixelWidth: Number {"typeId": "int"}, 
+      currentPixelHeight: Number {"typeId": "int"}, 
+      touch: Array<String>, 
+      video: {| codecs: Array<String> |}
+    |}, 
+    Extensions: {| available: {| "aplext:backstack:10": {|  |} |} |}, 
+    System: {|
+      application: {| applicationId: String |}, 
+      user: {| userId: String |}, 
+      device: {|
+        deviceId: String, 
+        supportedInterfaces: {| "Alexa.Presentation.APL": {| runtime: {| maxVersion: String |} |} |}
+      |}, 
+      apiEndpoint: String, 
+      apiAccessToken: String
+    |}
+  |}, 
+  request: {|
+    "type": String, 
+    requestId: String, 
+    timestamp: String, 
+    locale: String, 
+    shouldLinkResultBeReturned: Boolean
+  |}
+|} {"example": "{\\\"version\\\":\\\"1.0\\\",\\\"session\\\":{\\\"new\\\":true,\\\"sessionId\\\":\\\"amzn1.echo-api.session.c8d3e36a-0017-49c6-a28f-edb79f71bfe6\\\",\\\"application\\\":{\\\"applicationId\\\":\\\"amzn1.ask.skill.35b2782e-f378-4933-9a6f-dd9c969f3443\\\"},\\\"user\\\":{\\\"userId\\\":\\\"amzn1.ask.account.AE26PDNEQTHTAFP4N5OHIOBRAZDA6OKEM24XKOT7ZORSLYRQSFHKHQUX5KVASOMKRWTYDMCIJ5JUQVEMLEM3QPBTFLHTLMRN2PNCVVFOEE7FEQ7GRCO252YHXQA22U3XHGRERR64FXOLB7SJY2APTBC5TANYYFE3WY7IWFTH5GLBIEAROFOJUQSVJTFA3EV6BGRDKOWDV24LN4Q\\\"}},\\\"context\\\":{\\\"Viewports\\\":[{\\\"type\\\":\\\"APL\\\",\\\"id\\\":\\\"main\\\",\\\"shape\\\":\\\"RECTANGLE\\\",\\\"dpi\\\":160,\\\"presentationType\\\":\\\"STANDARD\\\",\\\"canRotate\\\":false,\\\"configuration\\\":{\\\"current\\\":{\\\"mode\\\":\\\"HUB\\\",\\\"video\\\":{\\\"codecs\\\":[\\\"H_264_42\\\",\\\"H_264_41\\\"]},\\\"size\\\":{\\\"type\\\":\\\"DISCRETE\\\",\\\"pixelWidth\\\":1024,\\\"pixelHeight\\\":600}}}}],\\\"Viewport\\\":{\\\"experiences\\\":[{\\\"arcMinuteWidth\\\":246,\\\"arcMinuteHeight\\\":144,\\\"canRotate\\\":false,\\\"canResize\\\":false}],\\\"mode\\\":\\\"HUB\\\",\\\"shape\\\":\\\"RECTANGLE\\\",\\\"pixelWidth\\\":1024,\\\"pixelHeight\\\":600,\\\"dpi\\\":160,\\\"currentPixelWidth\\\":1024,\\\"currentPixelHeight\\\":600,\\\"touch\\\":[\\\"SINGLE\\\"],\\\"video\\\":{\\\"codecs\\\":[\\\"H_264_42\\\",\\\"H_264_41\\\"]}},\\\"Extensions\\\":{\\\"available\\\":{\\\"aplext:backstack:10\\\":{}}},\\\"System\\\":{\\\"application\\\":{\\\"applicationId\\\":\\\"amzn1.ask.skill.35b2782e-f378-4933-9a6f-dd9c969f3443\\\"},\\\"user\\\":{\\\"userId\\\":\\\"amzn1.ask.account.AE26PDNEQTHTAFP4N5OHIOBRAZDA6OKEM24XKOT7ZORSLYRQSFHKHQUX5KVASOMKRWTYDMCIJ5JUQVEMLEM3QPBTFLHTLMRN2PNCVVFOEE7FEQ7GRCO252YHXQA22U3XHGRERR64FXOLB7SJY2APTBC5TANYYFE3WY7IWFTH5GLBIEAROFOJUQSVJTFA3EV6BGRDKOWDV24LN4Q\\\"},\\\"device\\\":{\\\"deviceId\\\":\\\"amzn1.ask.device.AE64UEJSVR33MS7ECY23N4F7HKUXGJY3SXIEIOQOP4A56FRXFP4EM7GEHLWXMIPZORFWZBIGL7LIK6B4PRDDD52M7W5RQ6NYWG5Y7FJYMLX3RHB6OOQLPBUEU6LRIZB2IMSWEEGOWBW2LKHXHOX77BGTBNBQ\\\",\\\"supportedInterfaces\\\":{\\\"Alexa.Presentation.APL\\\":{\\\"runtime\\\":{\\\"maxVersion\\\":\\\"1.5\\\"}}}},\\\"apiEndpoint\\\":\\\"https:\\/\\/api.eu.amazonalexa.com\\\",\\\"apiAccessToken\\\":\\\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLjM1YjI3ODJlLWYzNzgtNDkzMy05YTZmLWRkOWM5NjlmMzQ0MyIsImV4cCI6MTYwNTU1ODE1MCwiaWF0IjoxNjA1NTU3ODUwLCJuYmYiOjE2MDU1NTc4NTAsInByaXZhdGVDbGFpbXMiOnsiY29udGV4dCI6IkFBQUFBQUFBQVFDYzM3K1pjWDBCWVRPREM2WTY5VnFMSkFFQUFBQUFBQUFqU2JnZUlrNFE2NWVXU3Z5YjMwNjEya2tISHJMWDQrYVJWdWxIMTc1UG0xVUZLMkxoQXppTzNOVWxoYzV1V1JXQy9YVHB4NXZRYjZTdGpEQjVxUXdvR3BiRzFRTVFwMWRHVVR3MTNvSi9GN0Vyb0ZUTGJGU0VxSDJyaFlVeURYMThSZTdxdzMvbkMyblQ4aEFRZ0diZ0lONDlVZ3ZzNHhhQm5wOG13bTlUSG5FdHEyOVFxUjBPemJscXJSNVdzK3ZsK3hKYmdBRHJRUjcwUG5tbzZwUGJXaUtxNGdTM3F2TllSVm1pWFcrUDFoZEkzajcxNGRydXJHc0FzTW5OR2pNWDVNWVFqRndGVGNuc1dHNnAvdWtubDBTSXg0VWVNSEh3VHFFeXE3NU1hY21oaXNyaXhoYjhLWEpQQVFNVG93NEd5ZU5SNHUxTXhCUTYvbVlKR3ZnK2JZakxjdy9XbnFtb3JwNzRnbHFlSUxWRXFPQk5WMTgwN3ZnTklGb2RxWnNmR1kxUCIsImNvbnNlbnRUb2tlbiI6bnVsbCwiZGV2aWNlSWQiOiJhbXpuMS5hc2suZGV2aWNlLkFFNjRVRUpTVlIzM01TN0VDWTIzTjRGN0hLVVhHSlkzU1hJRUlPUU9QNEE1NkZSWEZQNEVNN0dFSExXWE1JUFpPUkZXWkJJR0w3TElLNkI0UFJEREQ1Mk03VzVSUTZOWVdHNVk3RkpZTUxYM1JIQjZPT1FMUEJVRVU2TFJJWkIySU1TV0VFR09XQlcyTEtIWEhPWDc3QkdUQk5CUSIsInVzZXJJZCI6ImFtem4xLmFzay5hY2NvdW50LkFFMjZQRE5FUVRIVEFGUDRONU9ISU9CUkFaREE2T0tFTTI0WEtPVDdaT1JTTFlSUVNGSEtIUVVYNUtWQVNPTUtSV1RZRE1DSUo1SlVRVkVNTEVNM1FQQlRGTEhUTE1STjJQTkNWVkZPRUU3RkVRN0dSQ08yNTJZSFhRQTIyVTNYSEdSRVJSNjRGWE9MQjdTSlkyQVBUQkM1VEFOWVlGRTNXWTdJV0ZUSDVHTEJJRUFST0ZPSlVRU1ZKVEZBM0VWNkJHUkRLT1dEVjI0TE40USJ9fQ.X0wlGNnhftEWqBLtTAXs0KeTHaUXL-stjWKbz9TwcJZ74hsk-R6F35uIeo4X-UeoC9jHfEfdAnqpPdLh1gnG_z3FdZ5ISuKrwdNvfNHeP90acTMRk5p3SfJ3dM2bhcWHWCrPwTdHR9ALeyLqax7XodcW6m4Wn2KWEP65KLl6I0RhWW92Z7A5-8bfmwl-p3mkT8fZdVFAM8alcjaHLapaMQUSgHJxNs5scVG0XfwXNt7WINBwYo-0TrjIsikPlmH_EUnAU1L9dMNdNEvyFlEaXNbSY8eCs3eFPotriwPwxDS-pMDlpIoNsln4jEvUSdcjP102uqo0M21a-LRfekXGLQ\\\"}},\\\"request\\\":{\\\"type\\\":\\\"LaunchRequest\\\",\\\"requestId\\\":\\\"amzn1.echo-api.request.6a44f466-ed3a-42b7-97d1-6799b2a1be40\\\",\\\"timestamp\\\":\\\"2020-11-16T20:17:30Z\\\",\\\"locale\\\":\\\"en-US\\\",\\\"shouldLinkResultBeReturned\\\":false}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a65686b9-90bf-4061-95a7-fa7ef57ddf71">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="request_launch_account_link"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

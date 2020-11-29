@@ -1,0 +1,65 @@
+{
+	"datasources": {
+    "textListData": {
+        "type": "object",
+        "objectId": "textListSample",
+        "title": "App Operations",
+        "backgroundImage": {
+            "contentDescription": null,
+            "smallSourceUrl": null,
+            "largeSourceUrl": null,
+            "sources": [
+                {
+                    "url": "https://st4.depositphotos.com/5727474/20291/v/600/depositphotos_202911022-stock-video-sci-technology-motion-graphic-background.jpg",
+                    "size": "small",
+                    "widthPixels": 0,
+                    "heightPixels": 0
+                },
+                {
+                    "url": "https://techseria.com/sites/default/files/2018-06/mulsoft.jpg",
+                    "size": "large",
+                    "widthPixels": 0,
+                    "heightPixels": 0
+                }
+            ]
+        },
+        "listItems": [
+            {
+                "primaryText": "Start",
+                "primaryAction": [
+                    {
+                        "type": "SetValue",
+                        "componentId": "appOperationList",
+                        "property": "headerTitle",
+                        "value": "start"
+                    }
+                ]
+            },
+            {
+                "primaryText": "Stop",
+                "primaryAction": [
+                    {
+                        "type": "SetValue",
+                        "componentId": "appOperationList",
+                        "property": "headerTitle",
+                        "value": "stop"
+                    }
+                ]
+            },
+            {
+                "primaryText": "Restart",
+                "primaryAction": [
+                    {
+                        "type": "SetValue",
+                        "componentId": "appOperationList",
+                        "property": "headerTitle",
+                        "value": "restart"
+                    }
+                ]
+            }
+        ],
+        "logoUrl": "https://www.apisero.com/wp-content/uploads/2020/02/Apisero-logo.png",
+        "hintText": "Try, \"Alexa, what is today's cheesy joke?\""
+    }
+}
+  }

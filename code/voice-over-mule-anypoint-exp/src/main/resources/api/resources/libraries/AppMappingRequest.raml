@@ -1,0 +1,28 @@
+#%RAML 1.0 Library
+types:
+  AppMappingReq:
+    description: |-
+      This api is used to get anypoint login token
+    type: object
+    properties:
+      apAccessToken:
+        type: string | nil
+        required: false
+        example: "sdfsdfs"
+        description: "apAccessToken"
+      userName:
+        type: string | nil
+        required: false
+        example: "arpitsrm11"
+        description: "userName"
+      email:
+        type: string | nil
+        required: false
+        example: "arpit.singh@apisero.com"
+        description: "email"
+      userId:
+        type: string | nil
+        required: false
+        example: "44-ssff--44"
+        description: "userId"
+          

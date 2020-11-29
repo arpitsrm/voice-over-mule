@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<sub-flow name="sf-launch-intent-handler" doc:id="52f9bbe0-69b4-4b73-9ea7-f63b392ab95f" >
+		<set-payload value="#[message.payload]" doc:name="Set Payload LaunchIntentRequest" doc:id="d6839db0-0834-4554-a0b8-f019488cefcb" mimeType="application/json" />
+		<http:request method="POST" doc:name="Request to Anypoint EXP - Get MASTER MAP" doc:id="32c91cc0-84f1-4228-b960-5e02026323a6" path="/app-mapping" target="vMasterMap" config-ref="HTTP_Request_configuration_Anypoint_EXP">
+					<http:body><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"apAccessToken": vars.vTokenPayload.apAccessToken,
+	"userName": vars.vTokenPayload.username,
+	"email": vars.vTokenPayload.email,
+	"userId": vars.vTokenPayload.userId
+}]]]></http:body>
+				</http:request>
+		<ee:transform doc:name="DW SET Launch Intent Response" doc:id="5fb4f8c6-1eb1-4a72-976a-cbd147af9897">
+					<ee:message>
+				<ee:set-payload resource="dataweave/launchIntentResponse.dwl" />
+					
+</ee:message>
+				</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a8ed8fd0-eb25-4a44-ad56-d5362978ea9e" message="#[payload]"/>
+	
+</sub-flow>
+</mule>

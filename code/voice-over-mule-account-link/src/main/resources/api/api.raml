@@ -1,0 +1,133 @@
+#%RAML 1.0
+title: Notifications Process API
+baseUri: https://anypoint.apisero.com/vom/
+version: v1.0
+documentation:
+  - title: Overview
+    content: !include docs/Home.md
+  - title: How To Use The API?
+    content: !include docs/HowTo.md
+  - title: Error Handling
+    content: !include docs/ErrorHandling.md
+mediaType: application/json
+uses: 
+  GetLoginResponse: resources/libraries/GetLoginResponse.raml
+  PostLoginResponse: resources/libraries/PostLoginResponse.raml
+  PostLoginRequest: resources/libraries/PostLoginRequest.raml
+  TokenResponse: resources/libraries/TokenResponse.raml
+  TokenRequest: resources/libraries/TokenRequest.raml
+
+  Errors: /exchange_modules/0ab110fe-6d25-4ced-84ab-89e0ce5ab169/error-response-canonical/1.0.0/ErrorResponseCanonical.raml
+
+resourceTypes: 
+  queryObjects: !include resources/resourceTypes/queryObjects.raml
+  createObjects: !include resources/resourceTypes/createObjects.raml
+
+traits:
+ chargeable:
+  headers:
+    xh-client-id:
+      type: string
+    xh-client-secret:
+      type: string
+ traceable:
+  headers:
+    xh-transaction-id:
+      type: string
+      required: false
+    Content-Type: 
+      type: string
+      required: false
+      default: application/json
+  
+ delegated:
+  headers:
+      mailbox: 
+        type: string
+        required: false
+      mailboxUserName: 
+        type: string
+        required: true
+      mailboxPassword: 
+        type: string
+        required: true
+
+
+
+
+/account-link:
+  /web:
+    description: Get Custom AnyPoint Login Page
+    type: 
+      queryObjects : {
+        "object-name": "Get Custom Anyoint Login Page",
+        "response-200-field": "Login",
+        "response-200-example": !include /resources/examples/response/GetLoginResponse.json,
+        "response-200-type": createObject.response,
+        "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+    }
+  
+  
+  
+  /login:
+    is: [traceable]
+    description: Used this method for API Notifications
+    type: 
+        createObjects : {
+          "object-name-post": "Post Login API",
+          "data-update-type": PostLoginRequest.PostLoginReq,
+          "data-update-example": !include resources/examples/request/PostLoginRequest.json,
+          "response-201-type": PostLoginResponse.PostLoginResp,
+          "response-201-field": "postLogin",
+          "response-201-example": !include resources/examples/response/PostLoginResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+  /token:
+    is: [traceable]
+    description: Used this method for exhcnaging or refresing Alexa token
+    type: 
+        createObjects : {
+          "object-name-post": "Exhange Token API",
+          "data-update-type": TokenRequest.TokenReq,
+          "data-update-example": !include resources/examples/request/TokenRequest.json,
+          "response-201-type": TokenResponse.TokenResp,
+          "response-201-field": "postLogin",
+          "response-201-example": !include resources/examples/response/TokenResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+  

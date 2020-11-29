@@ -1,0 +1,20 @@
+{
+  "orgName": "Altagracia",
+  "orgId": "9d6787a5b05b4f75910",
+  "environments": [
+    {
+      "envName": "Alysa",
+      "envId": "85adc58b47254102bdb",
+      "apps": [
+        
+      ]
+    },
+    {
+      "envName": "Albina",
+      "envId": "43f83a47365d43a88df",
+      "apps": [
+        
+      ]
+    }
+  ]
+}

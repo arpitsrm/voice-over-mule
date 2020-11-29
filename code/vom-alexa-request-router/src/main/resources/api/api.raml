@@ -1,0 +1,17 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/bf08e489-621f-4d74-b8e0-2a9ee28c4be6/ # 
+version: v1.0
+title: VOM Alexa Request Router API
+mediaType:
+  - application/json
+protocols:
+  - HTTP
+  
+/alexa:
+  post:
+    body:
+      type: object
+    responses:
+      "200":
+        body:
+          type: object

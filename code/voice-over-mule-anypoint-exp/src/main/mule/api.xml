@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <flow name="api-main">
+        <http:listener path="/api/v1.0/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[output application/java
+---
+{
+	("Location" : vars.vPath) if((vars.httpStatus default 200) == 302)
+}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:id="f041742f-64e9-4fcc-906b-fc8487a5bd9b" name="cf-correlation-id" doc:name="Refer to cf-correlation-id" />
+        <apikit:router config-ref="api-config" />
+    </flow>
+    <flow name="api-console">
+        <http:listener path="/console/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="post:\anypoint\token:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-get-login-tokin" doc:id="afa25b8f-b45c-4f29-b33b-e30a02ea882f" name="sf-get-login-tokin" />
+    </flow>
+    <flow name="post:\app-mapping:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-get-apps-mapping" doc:id="4f6f1d77-97b9-49f4-9445-e8fce9b7bd4d" name="sf-get-apps-mapping" />
+    </flow>
+    <flow name="get:\anypoint\get-alerts:api-config">
+        <logger level="INFO" message="get:\anypoint\get-alerts:api-config" />
+    </flow>
+    <flow name="get:\anypoint\(appName)\statistics:api-config">
+        <flow-ref doc:name="Refer to sf-get-status" doc:id="ee95360c-a035-4922-8ab0-ae67bd03677a" name="sf-get-status" />
+    </flow>
+    <flow name="post:\anypoint\(appName)\app-operation:api-config">
+        <flow-ref doc:name="Refer to sf-start-stop-application" doc:id="822b6cc5-4cba-4824-8d0d-c5247954e0a7" name="sf-start-stop-application"/>
+    </flow>
+</mule>

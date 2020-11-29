@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<global-property doc:name="Global Property" doc:id="359927d6-05fd-4b87-911c-5c40d1f10838" name="api.id" value="999999"/>
+	<global-property doc:name="Global Property" doc:id="79f302e3-d09d-418c-9343-672ae5389e34" name="https.port" value="8082" />
+	<global-property doc:name="Global Property" doc:id="514f1c59-9fd8-49a4-9374-3acb7ca8a437" name="api.layer" value="exp" />
+	<global-property doc:name="Global Property" doc:id="e3875a81-2571-4295-bc49-1cf254f90d06" name="api.name" value="voice-over-mule-account-link" />
+</mule>

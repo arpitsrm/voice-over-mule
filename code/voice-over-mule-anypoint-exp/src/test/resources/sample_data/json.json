@@ -1,0 +1,29 @@
+{
+  "data": [
+    {
+      "id": "a09ad18b-28c0-4eda-be20-12d75ab24159",
+      "name": "Design",
+      "organizationId": "900af370-e3a2-4980-a270-9830f0fa5b98",
+      "isProduction": false,
+      "type": "design",
+      "clientId": "0675530744804acbab353a041e3e182e",
+      "suggestedClientManagementProviderCount": 0,
+      "defaultClientManagementProvider": {
+        "name": "Anypoint"
+      }
+    },
+    {
+      "id": "e0616c0a-e714-4953-bc16-6f5258ef7fab",
+      "name": "Sandbox",
+      "organizationId": "900af370-e3a2-4980-a270-9830f0fa5b98",
+      "isProduction": false,
+      "type": "sandbox",
+      "clientId": "554a9a40780746c0b14e2f1e571d4b38",
+      "suggestedClientManagementProviderCount": 0,
+      "defaultClientManagementProvider": {
+        "name": "Anypoint"
+      }
+    }
+  ],
+  "total": 2
+}

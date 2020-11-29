@@ -1,0 +1,109 @@
+{
+    "document": {
+        "type": "APL",
+        "version": "1.4",
+        "settings": {},
+        "theme": "dark",
+        "import": [
+            {
+                "name": "alexa-layouts",
+                "version": "1.2.0"
+            }
+        ],
+        "resources": [],
+        "styles": {},
+        "onMount": [],
+        "graphics": {},
+        "commands": {},
+        "layouts": {},
+        "mainTemplate": {
+            "parameters": [
+                "payload"
+            ],
+            "items": [
+                {
+                    "type": "AlexaTextList",
+                    "id": "applicationList",
+                    "headerTitle": "${payload.textListData.title}",
+                    "headerBackButton": false,
+                    "headerAttributionImage": "${payload.textListData.logoUrl}",
+                    "backgroundImageSource": "${payload.textListData.backgroundImage.sources[0].url}",
+                    "backgroundBlur": false,
+                    "backgroundColorOverlay": true,
+                    "listItems": "${payload.textListData.listItems}",
+                    "hintText": "${payload.textListData.hintText}"
+                }
+            ]
+        }
+    },
+    "datasources": {
+        "textListData": {
+            "type": "object",
+            "objectId": "textListSample",
+            "title": "Applications",
+            "backgroundImage": {
+                "contentDescription": null,
+                "smallSourceUrl": null,
+                "largeSourceUrl": null,
+                "sources": [
+                    {
+                        "url": "https://st4.depositphotos.com/5727474/20291/v/600/depositphotos_202911022-stock-video-sci-technology-motion-graphic-background.jpg",
+                        "size": "small",
+                        "widthPixels": 0,
+                        "heightPixels": 0
+                    },
+                    {
+                        "url": "https://techseria.com/sites/default/files/2018-06/mulsoft.jpg",
+                        "size": "large",
+                        "widthPixels": 0,
+                        "heightPixels": 0
+                    }
+                ]
+            },
+            "listItems": [
+                {
+                    "primaryText": "LucroPlus",
+                    "secondaryText": "Calcuting Net Profit for a company",
+                    "tertiaryText": "v1.0.2",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "applicationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[0].primaryText} is selected"
+                        }
+                    ]
+                },
+                {
+                    "primaryText": "Ingreysos",
+                    "secondaryText": "Calculate the net expense of a company",
+                    "tertiaryText": "v2.1.0",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "applicationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[1].primaryText} is selected"
+                        }
+                    ]
+                },
+                {
+                    "primaryText": "CashFlow",
+                    "secondaryText": "For analysing the flow of cash within an organization",
+                    "tertiaryText": "v1.0,3",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "applicationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[2].primaryText} is selected"
+                        }
+                    ]
+                }
+            ],
+            "logoUrl": "https://www.apisero.com/wp-content/uploads/2020/02/Apisero-logo.png",
+            "hintText": "Try, \"Alexa, what is today's cheesy joke?\""
+        }
+    },
+    "sources": {}
+}

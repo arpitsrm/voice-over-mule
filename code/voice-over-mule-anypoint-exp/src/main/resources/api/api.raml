@@ -1,0 +1,216 @@
+#%RAML 1.0
+title: Notifications Process API
+baseUri: https://anypoint.apisero.com/vom/
+version: v1.0
+documentation:
+  - title: Overview
+    content: !include docs/Home.md
+  - title: How To Use The API?
+    content: !include docs/HowTo.md
+  - title: Error Handling
+    content: !include docs/ErrorHandling.md
+mediaType: application/json
+types:
+  app-operation:
+    enum:
+      - start
+      - stop
+      - restart
+uses: 
+  
+  AppMappingResponse: resources/libraries/AppMappingResponse.raml
+  AppMappingRequest: resources/libraries/AppMappingRequest.raml
+  AnypointTokenResponse: resources/libraries/AnypointTokenResponse.raml
+  AnypointTokenRequest: resources/libraries/AnypointTokenRequest.raml
+
+  AppOperationRequest: resources/libraries/appOperationsRequest.raml
+  AppOperationResponse: resources/libraries/appOperationsResponse.raml
+
+  Errors: /exchange_modules/0ab110fe-6d25-4ced-84ab-89e0ce5ab169/error-response-canonical/1.0.0/ErrorResponseCanonical.raml
+
+resourceTypes: 
+  queryObjects: !include resources/resourceTypes/queryObjects.raml
+  headObjects: !include resources/resourceTypes/headObjects.raml
+  createObjects: !include resources/resourceTypes/createObjects.raml
+
+traits:
+  chargeable:
+    headers:
+      xh-client-id:
+        type: string
+      xh-client-secret:
+        type: string
+  traceable:
+    headers:
+      xh-transaction-id:
+        type: string
+        required: false
+      Content-Type: 
+        type: string
+        required: false
+        default: application/json
+  
+  delegated:
+    headers:
+      user-id:
+        type: string
+        required: true
+      ap-access-token:
+        type: string
+        required: false
+      xh-env-id:
+        type: string
+        required: false
+  
+  app-operation:
+    headers:
+      operation:
+        type: app-operation
+        required: true
+
+  get-alerts-optional:
+    queryParameters:
+      offset:
+        type: integer
+        required: false
+        description: Offset to return alerts from Default value 0
+      
+      limit:
+        type: integer
+        required: false
+        description: Maximum number of alerts to return, default 10
+
+      resource:
+        type: string
+        required: false
+        description: Only return alerts which are connected to this resource (application name), default returns for all application
+
+  get-alerts-mandatory:
+    headers:
+      X-ANYPNT-ENV-ID:
+        type: string
+        required: true
+        description: The ID of your current environment
+        
+/anypoint:
+  /token:
+    is: [traceable]
+    description: Used this method for exhcnaging or refresing Alexa token
+    type: 
+        createObjects : {
+          "object-name-post": "Anypoint Login Token",
+          "data-update-type": AnypointTokenRequest.TokenReq,
+          "data-update-example": !include resources/examples/request/AnypointTokenRequest.json,
+          "response-201-type": AnypointTokenResponse.TokenResp,
+          "response-201-field": "postLogin",
+          "response-201-example": !include resources/examples/response/AnypointTokenResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+
+  /{appName}:
+    /statistics:
+      is: [traceable, delegated]
+      description: Use this method to get the dashboard statistics of an application
+      type: 
+        queryObjects : {
+        "object-name": "Get Statistics",
+        "response-200-type": "",
+        "response-200-example": !include resources/examples/response/getStatisticsResponse.json,
+        "error-standard-type": Errors.Standard,
+      "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+      "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+      "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+      "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+      "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+      "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+      "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+      "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+      "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+      "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+      "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+      }
+
+    /app-operation:
+      is: [traceable, delegated]
+      description: Use this method to either START, STOP or RESTART the application
+      type: 
+        createObjects : {
+          "object-name-post": "Start stop restart apps",
+          "data-update-type": AppOperationRequest.appOperationReq,
+          "data-update-example": !include resources/examples/request/appOperationRequest.json,
+          "response-201-type": AppOperationResponse.appOperationResp,
+          "response-201-field": "postLogin",
+          "response-201-example": !include resources/examples/response/appOperationResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+      
+  /get-alerts:
+    is: [traceable, get-alerts-optional, get-alerts-mandatory]
+    description: Use this method to get of an application or all the applications of a particular environment
+    type: 
+      queryObjects : {
+        "object-name": "Get Alerts",
+        "response-200-type": "",
+        "response-200-example": !include resources/examples/response/getAlerts.json,
+        "error-standard-type": Errors.Standard,
+      "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+      "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+      "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+      "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+      "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+      "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+      "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+      "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+      "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+      "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+      "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+      }
+
+/app-mapping:
+  is: [traceable]
+  description: Used this method for exhcnaging or refresing Alexa token
+  type: 
+      createObjects : {
+        "object-name-post": "Anypoint Login Token",
+        "data-update-type": AppMappingRequest.AppMappingReq,
+        "data-update-example": !include resources/examples/request/AppMappingRequest.json,
+        "response-201-type": AppMappingResponse.AppMappingResp,
+        "response-201-field": "postLogin",
+        "response-201-example": !include resources/examples/response/AppMappingResponse.json,
+        "error-standard-type": Errors.Standard,
+      "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+      "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+      "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+      "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+      "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+      "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+      "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+      "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+      "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+      "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+      "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+      }
+  

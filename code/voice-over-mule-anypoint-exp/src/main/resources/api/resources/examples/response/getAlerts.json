@@ -1,0 +1,60 @@
+{
+  "alerts": [{
+    "name": "failure",
+    "severity": "INFO",
+    "condition": {
+        "type": "deployment-failed",
+        "resources": [
+            "my-app-name"
+        ],
+        "resourceType": "application"
+    },
+    "organizationId": "2105a52e-6bd7-4c86-92bd-119ba216f96d",
+    "environmentId": "8606e617-21de-4d46-84fb-0e44036ac08b",
+    "id": "1555fd61-3cfb-4662-afdc-298c1676beb0",
+    "productName": "cloudhub",
+    "actions": [
+        {
+            "type": "email",
+            "emails": [
+                "me@example.com"
+            ],
+            "subject": "subject line",
+            "content": "deployment failed for ${resource}"
+        }
+    ],
+    "enabled": true,
+    "lastModified": 1458115909470,
+    "isSystem": false,
+    "createdAt": 1458115909470
+},
+{
+    "name": "failure",
+    "severity": "INFO",
+    "condition": {
+        "type": "deployment-success",
+        "resources": [
+            "my-app-name"
+        ],
+        "resourceType": "application"
+    },
+    "organizationId": "2105a52e-6bd7-4c86-92bd-119ba216f96d",
+    "environmentId": "8606e617-21de-4d46-84fb-0e44036ac08b",
+    "id": "1555fd61-3cfb-4662-afdc-298c1676beb2",
+    "productName": "cloudhub",
+    "actions": [
+        {
+            "type": "email",
+            "emails": [
+                "me@example.com"
+            ],
+            "subject": "subject line",
+            "content": "deployment failed for ${resource}"
+        }
+    ],
+    "enabled": true,
+    "lastModified": 1458115909470,
+    "isSystem": false,
+    "createdAt": 1458115909470
+}]
+}

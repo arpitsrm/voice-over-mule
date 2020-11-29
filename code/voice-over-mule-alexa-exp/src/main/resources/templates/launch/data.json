@@ -1,0 +1,96 @@
+{
+	"datasources": {
+		"textListData": {
+			"type": "object",
+			"objectId": "textListSample",
+			"title": "WELCOME TO VOICE OVER MULE",
+			"backgroundImage": {
+				"contentDescription": null,
+				"smallSourceUrl": null,
+				"largeSourceUrl": null,
+				"sources": [
+					{
+						"url": "https://miro.medium.com/max/1000/1*jUfQFUUmocWGue5Czy99mw.png",
+						"size": "small",
+						"widthPixels": 0,
+						"heightPixels": 0
+					},
+					{
+						"url": "https://techseria.com/sites/default/files/2018-06/mulsoft.jpg",
+						"size": "large",
+						"widthPixels": 0,
+						"heightPixels": 0
+					}
+				]
+			},
+			"listItems": [
+				{
+					"primaryText": "Find app status",
+					"primaryAction": [
+						{
+							"type": "SendEvent",
+							"arguments": [
+								{
+									"intentName": "FindAppStatusIntent"
+								}
+							],
+							"components": [
+								"FindAppStatusIntent"
+							]
+						}
+					]
+				},
+				{
+					"primaryText": "Perform App Operations",
+					"primaryAction": [
+						{
+							"type": "SendEvent",
+							"arguments": [
+								{
+									"intentName": "AppOperationsIntent"
+								}
+							],
+							"components": [
+								"AppOperationsIntent"
+							]
+						}
+					]
+				},
+				{
+					"primaryText": "Create Alert",
+					"primaryAction": [
+						{
+							"type": "SendEvent",
+							"arguments": [
+								{
+									"intentName": "CreateAlertIntent"
+								}
+							],
+							"components": [
+								"CreateAlertIntent"
+							]
+						}
+					]
+				},
+				{
+					"primaryText": "HELP",
+					"primaryAction": [
+						{
+							"type": "SendEvent",
+							"arguments": [
+								{
+									"intentName": "AMAZON.HelpIntent"
+								}
+							],
+							"components": [
+								"HelpIntent"
+							]
+						}
+					]
+				}
+			],
+			"logoUrl": "https://www.apisero.com/wp-content/uploads/2020/02/Apisero-logo.png",
+			"hintText": "Try, \"Alexa, what is today's cheesy joke?\""
+		}
+	}
+}

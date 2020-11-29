@@ -1,0 +1,23 @@
+http:
+  request:
+    alexa:
+      exp:
+        host: "voice-over-mule-alexa-exp.us-e2.cloudhub.io"
+        port: "80"
+        
+        #host: "localhost"
+        #port: "10093"        
+        basePath: "/api/v1.0"
+        path:
+          link-account: "/alexa/account-link"
+          launch: "/alexa/welcome"
+          app-status: "/alexa/app-status"
+          yes-no: "/alexa/yes-no"
+          app-operation: "/alexa/app-operation"
+          alert: "/alexa/create-alert"
+          chose-category: "/alexa/chose-category"
+          create-alert: "/alexa/create-alert"
+          fallback: "/alexa/fallback"
+          exit: "/alexa/exit"
+response:
+  timeout: "90000"

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="sf-event-search-app-name" doc:id="a6365a1a-639c-4806-a877-5fee8b8318cc" >
+		<logger level="INFO" doc:name="LOG INFO App Name Selected" doc:id="0edb40cb-2f3a-4ca4-b1cb-e0bafd04ed97" />
+		<set-variable value='#[%dw 2.0
+output application/json
+
+---
+if((payload.request.arguments[0] default {}).appName != null) (payload.request.arguments[0].appName) else (payload.session.attributes.appName)]' doc:name="Set Variable vAppName" doc:id="35528ae1-b7d1-462c-8805-cbb905efd58c" variableName="vAppName" />
+		<set-variable value='#[%dw 2.0
+output application/json
+
+---
+if((payload.request.arguments[0] default {}).envId != null) (payload.request.arguments[0].envId) else (payload.session.attributes.envId)]' doc:name="Set Variable vEnvId" doc:id="13d0fa81-945a-457a-bdbe-284264a72a92" variableName="vEnvId" />
+		<http:request method="GET" doc:name="Request" doc:id="641c8d6b-8cd8-423f-a4dd-87a4829f15bd" config-ref="HTTP_Request_configuration_Anypoint_EXP" path="/anypoint/{appName}/statistics" target="vStats">
+							<http:headers><![CDATA[#[output application/java
+---
+{
+	"xh-env-id" : vars.vEnvId,
+	"user-id" : vars.vTokenPayload.userId,
+	"ap-access-token" : vars.vTokenPayload.apAccessToken
+}]]]></http:headers>
+							<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : vars.vAppName
+}]]]></http:uri-params>
+						</http:request>
+
+<set-variable value='#[%dw 2.0
+output application/json
+
+var stats = ((vars.vStats.workerStatistics map
+        {
+            "cpu":{
+            	"percentage" : round($.statistics.cpu[1] as Number /0.0694444444444444),
+            	"Avg":(($.statistics.cpu[0]) as Number +($.statistics.cpu[1]) as Number) /2
+                 },
+	    "memory":{
+            	"percentage" : round($.statistics.memoryPercentageUsed[1] default 0),
+            	"Avg":$.statistics.memoryTotalMax
+            	}
+       })[0] default {})
+---
+{
+    "cpu": (stats.cpu.percentage default "0") ++ "%",
+    "memory": (stats.memory.percentage default "0") ++ "%"
+}]' doc:name="Set Variable vStats" doc:id="ce57c7fb-c069-41cc-8ee7-ebe15a544ee2" variableName="vStats" />
+		<set-variable value='#[%dw 2.0
+output application/json
+
+var appName = vars.vAppName
+var finalAppData = (flatten(vars.vMasterMap.idMapping.environments..apps default []) filter 
+		((item, index) -&gt; upper(item.appName) == upper(appName)))[0] default {}
+---
+{
+    "muleVersion": finalAppData.muleVersion.version,
+    "totalProps": sizeOf(finalAppData.properties default {}),
+    "appStatus": finalAppData.appStatus,
+    "region": finalAppData.region,
+    "cpu": vars.vStats.cpu,
+    "memory": vars.vStats.memory
+}]' doc:name="Copy_of_Set Variable vResponse" doc:id="f2a22ca4-750d-49a9-8d6b-c05d4b474cad" variableName="vResponse" />
+		<ee:transform doc:name="DW App Final Status" doc:id="d32cf8f2-eab8-466e-98fa-3907cb7c34bf">
+							<ee:message>
+						<ee:set-payload resource="dataweave/event/findAppStatusIntentResponse_FinalResult.dwl" />
+							
+
+</ee:message>
+						</ee:transform>
+	</sub-flow>
+	<sub-flow name="sf-app-status-event-handler" doc:id="7eee7bb1-daec-4d21-a5e5-d2a5c3c2101e" >
+		<logger level="INFO" doc:name="LOG INFO Starting FindAppStatusIntent" doc:id="a14fa2a4-9884-4e88-a25e-1f6715f7e393" message="Starting FindAppStatusIntent" />
+		<http:request method="POST" doc:name="Request to ANYPOINT EXP - Get Master Map" doc:id="1c3bd9a8-0853-476e-aea0-f3f50933fcf1" config-ref="HTTP_Request_configuration_Anypoint_EXP" path="${http.request.anypoint.exp.path.app-mapping}" target="vMasterMap">
+					<http:body><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"apAccessToken": vars.vTokenPayload.apAccessToken,
+	"userName": vars.vTokenPayload.userName,
+	"email": vars.vTokenPayload.email,
+	"userId": vars.vTokenPayload.userId
+}]]]></http:body>
+				</http:request>
+		<set-payload value="#[%dw 2.0
+output application/json
+---
+payload]" doc:name="Set Payload FInd App Status Intent Request" doc:id="ff27daf5-8263-467e-8042-2b776d4a82d9" mimeType="application/json" />
+		<choice doc:name="Choice" doc:id="2da0aafe-2f06-4393-a10d-8d1f119d0f17">
+					
+					<when expression='#[(payload.request.arguments[0] != null and typeOf(payload.request.arguments[0]) != String and payload.request.arguments[0].appName != null and (payload.request.arguments[0].intentName default "") == "FindAppStatusIntent")]'>
+						<logger level="INFO" doc:name="LOG INFO Got App Name or App Number Slot" doc:id="654abb9b-51de-4206-a84f-7d7bab4a5bd2" message="Got App Name or App Number Slot" />
+				<flow-ref doc:name="Refer to sf-event-search-app-name" doc:id="eeb74371-c38e-4d7f-bf98-73701fa9d64b" name="sf-event-search-app-name" />
+					
+
+
+</when>
+					<when expression='#[(payload.request.arguments[0] != null and typeOf(payload.request.arguments[0]) != String and payload.request.arguments[0].envName != null and (payload.request.token default "") == "FindAppStatusIntent")]'>
+						<logger level="INFO" doc:name="LOG INFO Got ENV Slot" doc:id="bbd63f20-0716-47a6-951a-eb47fff49551" message="Got Env Slot" />
+				<ee:transform doc:name="Elicit Slot appIdentifier" doc:id="cea7f974-c910-4b6f-a68f-1cfaa7562e81">
+							<ee:message>
+						<ee:set-payload resource="dataweave/event/findAppStatusIntentResponse_Env.dwl" />
+							
+</ee:message>
+						</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="c26d7ae0-3f24-4fef-b0c6-c871e8548e61" />
+					
+
+
+</when>
+					
+					<when expression='#[(payload.request.arguments[0] != null and typeOf(payload.request.arguments[0]) != String and payload.request.arguments[0].orgName != null and (payload.request.token default "") == "FindAppStatusIntent")]'>
+						<logger level="INFO" doc:name="LOG INFO Got Org Slot" doc:id="280efbd8-c753-4ba6-9026-dda94d5ea724" message="Got Org Slot" />
+						<ee:transform doc:name="DW SET Find APp Status Intent Response" doc:id="8b61e9f0-b930-4ffd-ab5e-3a0dde87181f">
+					<ee:message>
+						<ee:set-payload resource="dataweave/event/findAppStatusIntentResponse_Org.dwl" />
+					
+
+</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="fb47f42f-bcb7-4475-9f3e-22a36db2f39e" />
+					
+</when>
+					
+					<when expression="#[(payload.request.arguments[0].intentName == 'FindAppStatusIntent' and payload.request.token == 'LaunchIntent')]">
+						<logger level="INFO" doc:name="LOG INFO Find Status Dialogue started" doc:id="d7ea6cf4-f498-4228-b96c-a1494941f3ab" message="Find Status Dialogue started" />
+				<ee:transform doc:name="DW SET Find APp Status Intent Response" doc:id="df0cc3d8-1ac1-4bd2-ad5e-ec2d739ef36b">
+					<ee:message>
+						<ee:set-payload resource="dataweave/event/findAppStatusIntentResponse_First.dwl" />
+					
+
+
+</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="0a82136a-b4fd-4ebd-a3ea-0d40f6dbb3f9" />
+					
+</when>
+					
+				</choice>
+	</sub-flow>
+</mule>

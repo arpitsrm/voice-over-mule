@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <flow name="api-main">
+        <http:listener path="/api/v1.0/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[output application/java
+---
+{
+	("Location" : vars.vPath) if((vars.httpStatus default 200) == 302)
+}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+            </http:error-response>
+        </http:listener>
+        <set-variable value="#[%dw 2.0 output application/json --- {  &quot;username&quot; : message.attributes.headers[&quot;username&quot;],  &quot;userId&quot; : message.attributes.headers[&quot;userId&quot;],  &quot;email&quot; : message.attributes.headers[&quot;email&quot;],  &quot;password&quot; : message.attributes.headers[&quot;password&quot;],  &quot;apAccessToken&quot; : message.attributes.headers[&quot;apAccessToken&quot;],  &quot;issued&quot; : message.attributes.headers[&quot;issued&quot;],  &quot;expires&quot; : message.attributes.headers[&quot;expires&quot;],  &quot;display&quot; : message.attributes.headers[&quot;display&quot;] }]" doc:name="Set Variable vTokenPayload" doc:id="ed4e4555-f6df-41e0-8f0f-429f6461d84a" variableName="vTokenPayload" />
+        <flow-ref doc:id="f041742f-64e9-4fcc-906b-fc8487a5bd9b" name="cf-correlation-id" doc:name="Refer to cf-correlation-id" />
+        <apikit:router config-ref="api-config" />
+    </flow>
+    <flow name="api-console">
+        <http:listener path="/console/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="post:\alexa\account-link:application\json:api-config">
+        <ee:transform doc:name="Transform Message" doc:id="a65686b9-90bf-4061-95a7-fa7ef57ddf71">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <flow-ref doc:name="Refer to sf-account-link" doc:id="c558a0c4-32ea-4b65-84a3-9f63a8e290ff" name="sf-account-link" />
+    </flow>
+    <flow name="post:\alexa\app-operation:application\json:api-config">
+        <choice doc:name="Choice" doc:id="ad1e9125-65aa-4ef6-946a-73e7d5636fc9">
+            <when expression="#[payload.request.&quot;type&quot; == &quot;Alexa.Presentation.APL.UserEvent&quot;]">
+                <flow-ref doc:name="Refer to sf-app-operation-event-handler" doc:id="a93ae98b-a3f2-4ad2-b806-90fb62938301" name="sf-app-operation-event-handler" />
+            </when>
+            <otherwise>
+                <flow-ref doc:name="Refer to sf-app-operation-intent-handler" doc:id="31a29c51-44c9-41c3-83de-232a9925cac7" name="sf-app-operation-intent-handler" />
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="post:\alexa\app-status:application\json:api-config">
+        <choice doc:name="Choice" doc:id="6d583cb2-7952-49c7-bf54-03e91c9e52e2">
+            <when expression="#[payload.request.&quot;type&quot; == &quot;Alexa.Presentation.APL.UserEvent&quot;]">
+                <flow-ref doc:name="Refer to sf-app-status-event-handler" doc:id="f690719a-2c11-4374-9b9a-0da0e182a47e" name="sf-app-status-event-handler" />
+            </when>
+            <otherwise>
+                <flow-ref doc:name="Refer to sf-app-status-intent-handler" doc:id="23f7346b-0841-4937-8fae-d203852dcdd6" name="sf-app-status-intent-handler" />
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="post:\alexa\yes-no:application\json:api-config">
+        <choice doc:name="Choice" doc:id="ec470dc9-31ed-4a6d-81b4-43aa29e69d83">
+            <when expression="#[payload.request.&quot;type&quot; == &quot;Alexa.Presentation.APL.UserEvent&quot;]">
+                <flow-ref doc:name="Refer to sf-yes-no-event-handler" doc:id="095fb42f-a293-49da-b73b-5962f56ce16c" name="sf-yes-no-intent-handler" />
+            </when>
+            <otherwise>
+                <flow-ref doc:name="Refer to sf-yes-no-intent-handler" doc:id="873acb66-5933-4dac-8bd0-cbf02495198b" name="sf-yes-no-intent-handler" />
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="post:\alexa\create-alert:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-create-alert-intent-handler" doc:id="96e953ff-da6b-4570-9685-2c9d1a0a6fc9" name="sf-create-alert-intent-handler" />
+    </flow>
+    <flow name="post:\alexa\welcome:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-launch-intent-handler" doc:id="7966cac4-feff-40e6-8f64-f06c87375cc6" name="sf-launch-intent-handler" />
+    </flow>
+    <flow name="post:\alexa\exit:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-stop-cancel-intent-handler" doc:id="ec8729dc-4f66-49e8-80fd-77bbc0b73aca" name="sf-stop-cancel-intent-handler" />
+    </flow>
+    <flow name="post:\alexa\fallback:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-fallback-intent-handler" doc:id="26ef183b-2228-4676-a654-d44e1fb11651" name="sf-fallback-intent-handler"/>
+    </flow>
+    <flow name="post:\alexa\help:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-help-intent-handler" doc:id="094615eb-160b-49b5-82b3-6c19cc882a7f" name="sf-help-intent-handler"/>
+    </flow>
+</mule>

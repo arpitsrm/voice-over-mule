@@ -1,0 +1,43 @@
+#%RAML 1.0 Library
+types:
+  request:
+    displayName: Request for folder creation
+    type: object
+    properties:
+      displayName:
+        required: true
+        type: string
+        example: Mulesoft
+
+  response:
+    displayName: Response after the folder creation
+    type: object
+    properties:
+      '@odata.context':
+        required: true
+        type: string
+        example: https://graph.microsoft.com/v1.0
+      id: 
+        required: true
+        type: string
+        example: AAMkADFmYjhkZDc0LThmM2ItNGYwMC1iNDRkLTQzODE4MzZlYjY3ZgAuAAAAAADz-XxbEbenTp9ptXs9ghuAAQDZQO3UMP-RRZQzyoQLnB2ZAACW-vsiAAA=
+      displayName: 
+        required: true
+        type: string
+        example: Mulesoft
+      parentFolderId: 
+        required: true
+        type: string
+        example: AAMkADFmYjhkZDc0LThmM2ItNGYwMC1iNDRkLTQzODE4MzZlYjY3ZgAuAAAAAADz-XxbEbenTp9ptXs9ghuAAQDZQO3UMP-RRZQzyoQLnB2ZAAAAAAEIAAA=
+      childFolderCount: 
+        required: true
+        type: integer
+        example: 0
+      unreadItemCount: 
+        required: true
+        type: integer
+        example: 0
+      totalItemCount: 
+        required: true
+        type: integer
+        example: 0

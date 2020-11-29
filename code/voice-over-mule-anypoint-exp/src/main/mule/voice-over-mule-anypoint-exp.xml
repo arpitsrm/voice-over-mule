@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="387b575c-fe0b-45e4-8d42-6c45ab263c3c" >
+		<os:connection />
+	</os:config>
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="261fa3be-aa70-49df-b332-2ae8d83e7184" config-ref="ObjectStore_Config" />
+	<sub-flow name="sf-get-apps-mapping" doc:id="591ab2f4-eafa-4acc-b816-0f87d85e9d3d" >
+		<os:contains doc:name="Contains" doc:id="f359d0a0-e6be-4033-8235-edc16f84fd8b" key="#[%dw 2.0
+output application/json
+---
+payload.userId]" target="vTokenExists" objectStore="Object_store"/>
+		<choice doc:name="First time user?" doc:id="10e124e6-bfbc-4522-9bc1-5aa56a561e62" >
+			<when expression="#[vars.vTokenExists == false]">
+				<logger level="INFO" doc:name="Logger" doc:id="9ed13e51-2671-4da8-81fc-27e2fb9985c2" />
+				<flow-ref doc:name="Refer to anpoint-platform-sysSub_Flow" doc:id="5ca30e06-65e8-454e-a810-3b1779a9ef21" name="anpoint-platform-sysSub_Flow"/>
+			</when>
+			<otherwise >
+				<os:retrieve doc:name="Retrieve Master Map" doc:id="ddbc325d-ec5d-48af-8bbc-4c9fe2b33e1d" key="#[%dw 2.0
+output application/json
+---
+payload.userId]" objectStore="Object_store">
+					<os:default-value ><![CDATA[#[""]]]></os:default-value>
+				</os:retrieve>
+				<logger level="INFO" doc:name="Logger" doc:id="a0ee4c15-4a07-4378-a3bc-5e5d8638ba6e" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="sf-get-login-tokin" doc:id="97f93bb7-da2a-4b11-afbc-561ab5109c5d" >
+		<try doc:name="Try" doc:id="17ca588f-8c4b-41d4-8ae4-b45fd767e9c2">
+				<http:request method="POST" doc:name="Request GET Access Token" doc:id="fd7b2107-c185-4fd5-bf35-09a37447bcf4"  target="vAccessToken" url="https://anypoint.mulesoft.com:443/accounts/login" config-ref="HTTP_Request_configuration_Anypoint_Platform">
+			<http:body><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "username": payload.username,
+  "password": payload.password
+}]]]></http:body>
+		</http:request>
+				<http:request method="GET" doc:name="Request GET All Organizations" doc:id="23c9cf12-9815-44c1-bec5-6075203cab52" path="/accounts/api/me" config-ref="HTTP_Request_configuration" target="vOrgData">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	Authorization : "Bearer " ++ vars.vAccessToken.access_token
+}]]]></http:headers>
+		</http:request>
+				<set-payload value='#[%dw 2.0
+output application/json
+---
+{
+	"accessToken": vars.vAccessToken.access_token,
+	"userName": vars.vOrgData.user.username,
+	"email": vars.vOrgData.user.email,
+	"userId": vars.vOrgData.user.id
+}]' doc:name="Set Payload" doc:id="6a89394f-3fa0-4bed-9c56-d59a2ace4fa1" />
+			<error-handler>
+					<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="95ea674b-7e1e-450d-9154-89534709cbf3" type="HTTP:FORBIDDEN">
+						<logger level="INFO" doc:name="Logger" doc:id="5eb7fb5b-0463-4bbb-b09f-058de3e7356c" />
+					</on-error-propagate>
+				</error-handler>
+			</try>
+	
+</sub-flow>
+</mule>

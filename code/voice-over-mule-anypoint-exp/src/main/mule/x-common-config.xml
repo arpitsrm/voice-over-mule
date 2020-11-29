@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+    <api-gateway:autodiscovery apiId="${api.id}" doc:name="API Autodiscovery" doc:id="abd154c4-d996-42aa-938f-bbe7977a1aed" flowRef="api-main" />
+    <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ba88da7a-44f9-455e-94e8-cd1d4c91be1f">
+        <http:listener-connection host="0.0.0.0" port="${http.port}" />
+    </http:listener-config>
+    <apikit:config name="api-config" api="api.raml" raml="api.raml" outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" />
+    <configuration-properties doc:name="Configuration properties" doc:id="508c96e2-2723-4dce-bd7d-11d40f456631" file="properties\voice-over-mule-anypoint-exp-sec-${mule.env}.yaml" />
+    <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a10aa514-68c9-402a-9a5a-0db4a07058ba" file="properties\voice-over-mule-anypoint-exp-sec-${mule.env}.yaml" key="${application.runtime.key}" />
+</mule>

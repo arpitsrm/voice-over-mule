@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="sf-yes-no-intent-handler" doc:id="7eee7bb1-daec-4d21-a5e5-d2a5c3c2101e" >
+		<logger level="INFO" doc:name="LOG INFO Starting YesNoIntent" doc:id="a14fa2a4-9884-4e88-a25e-1f6715f7e393" message="Starting YesNoIntent" />
+		<choice doc:name="Choice" doc:id="2da0aafe-2f06-4393-a10d-8d1f119d0f17">
+					
+					<when expression='#[payload.session.attributes.fromIntent == "FindAppStatusIntent"]'>
+						<logger level="INFO" doc:name="LOG INFO Recevied from FindStatusIntent" doc:id="280efbd8-c753-4ba6-9026-dda94d5ea724" message="Recevied from FindStatusIntent" />
+				<choice doc:name="Choice" doc:id="2bb096aa-387d-4052-b153-04ba8941095e" >
+					<when expression='#[payload.request.intent.slots.yes_no.value == "yes"]'>
+						<set-payload value='#[%dw 2.0
+output application/json
+---
+if(payload.request.dialogState != null and payload.request.dialogState == "COMPLETED")
+(payload  update {
+        case d at .request.dialogState -&gt;  "STARTED"
+}  update {
+        case i at .request.intent.name -&gt;  "FindAppStatusIntent"
+}
+update {
+        case s at .request.intent.slots -&gt;  ({
+					"environment": {
+						
+						"name": "environment",
+						"confirmationStatus": "NONE"
+					},
+					"organization": {
+						"name": "organization",
+						"confirmationStatus": "NONE"
+					},
+					"appName": {
+						"name": "appName",
+						"confirmationStatus": "NONE"
+					},
+					"appIdentifier": {
+						"name": "appIdentifier",
+						"confirmationStatus": "NONE"
+					}
+				})
+})
+else (payload)]' doc:name="Set Payload" doc:id="35645494-2be6-4c1b-a32e-5a7fd2b7050b" />
+						<flow-ref doc:name="Refer to sf-app-status-intent-handler" doc:id="02aa1b92-2369-48b1-878d-f43b4947d1a8" name="sf-app-status-intent-handler" />
+					</when>
+					<otherwise >
+						<flow-ref doc:name="Refer to sf-launch-intent-handler" doc:id="56d26e3b-317a-42c9-89b4-9a785ecb2394" name="sf-launch-intent-handler" />
+					</otherwise>
+				</choice>
+					
+</when>
+					
+				</choice>
+	</sub-flow>
+</mule>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="cbbab9e9-4b62-425c-9638-4f4a31ca6981" >
+		<http:request-connection host="anypoint.mulesoft.com" protocol="HTTPS">
+		</http:request-connection>
+	</http:request-config>
+	<sub-flow name="sf-app-statistics" doc:id="631afca2-1e5c-447b-b653-70164a384b84" >
+		<foreach doc:name="For Each" doc:id="1183eb66-2230-4c63-a607-9c035455d55c" collection="#[vars.vAppsDataList]">
+			<set-variable value="#[payload.domain]" doc:name="Set Variable vAppId" doc:id="9a69bbae-3b06-4b58-afd9-c4c488b1bbd0" variableName="vAppId" />
+			<http:request method="GET" doc:name="Request GET APP STATISTICS" doc:id="e70b8cef-c2e7-4909-a4c7-e5eb0a77cb45" path='#["/cloudhub/api/v2/applications/" ++ payload.domain ++ 
+"/dashboardStats?statistics=&amp;interval=900000"]' config-ref="HTTP_Request_configuration">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : payload['xh-env-id'],
+	"Authorization" : "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+			</http:request>
+			<logger level="INFO" doc:name="Logger" doc:id="fbb28619-d5df-4360-bd29-b1307b227a55" />
+			<set-variable value='#[%dw 2.0	
+output application/json
+---
+(vars.vStatisticsDataList default [] ++ [(payload ++ {"xh-app-id": vars.vAppId})])]' doc:name="Set Variable vStatisticsDataList" doc:id="acd4691d-22ec-4564-ab3a-9bd5c77b5562" variableName="vStatisticsDataList" />
+		</foreach>
+		<os:retrieve doc:name="Retrieve" doc:id="d230643c-5739-44de-997c-e4cee18fa713" key="oStatisticsDataList" target="oStatisticsDataList">
+			<os:default-value><![CDATA[#[[]]]]></os:default-value>
+		</os:retrieve>
+		<os:store doc:name="Store ALL App Statistics" doc:id="efd177bb-5bba-4a43-9366-dc81b57a98cc" key="oStatisticsDataList">
+			<os:value><![CDATA[#[vars.vStatisticsDataList]]]></os:value>
+		</os:store>
+	</sub-flow>
+	<sub-flow name="anpoint-platform-sysSub_Flow" doc:id="97874b04-17ee-46ee-8af2-a32a3ce31e22" >
+		<set-variable value="#[[]]" doc:name="Set Variable vMasterDataList" doc:id="e9df1917-5d69-47be-86ad-4f0786a99f81" variableName="vMasterDataList"/>
+		<set-variable value="#[payload.apAccessToken]" doc:name="Set Variable vAccessToken" doc:id="e84ed851-48e4-4409-b336-21b7ecf7592a" variableName="vAccessToken"/>
+		<http:request method="GET" doc:name="Request GET All Organizations" doc:id="df470287-e439-48b2-a1bf-574fb938d055" path="/accounts/api/me" config-ref="HTTP_Request_configuration" target="vOrgData">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+		</http:request>
+		<ee:transform doc:name="DW STore Master Data" doc:id="36db126b-2877-46bb-93e1-8cedc2cc5451" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="oMasterData" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"userInfo": {
+		"firstName": vars.vOrgData.user.firstName,
+		"id": vars.vOrgData.user.id,
+		"accountType": vars.vOrgData.user.organization.subscription."type"
+}
+}
+
+++
+
+{"idMapping":
+flatten(vars.vOrgData..memberOfOrganizations) map ((item, index) -> 
+
+{
+    "id": item.id,
+    "name": item.name,
+    "environments": [] 
+}
+
+)
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<foreach doc:name="For Each Organization" doc:id="8f67cdf0-bc59-4dcf-b3ed-a318ec3671b9" collection="#[vars.oMasterData.idMapping]">
+			<set-variable value="#[payload.id]" doc:name="Set Variable vOrgId" doc:id="b4d64192-6703-47bd-a0e6-6ee605c4950d" variableName="vOrgId"/>
+			<set-variable value="#[payload]" doc:name="Set Variable vOrgData" doc:id="09cdb2fb-8418-4530-84df-26376c3cfa82" variableName="vOrgData"/>
+			<http:request method="GET" doc:name="Request GET All environments of Organization" doc:id="756e7116-6f10-4129-b9b1-bea75b54186f" path='#["/accounts/api/cs/organizations/" ++ payload.id ++ "/environments"]' config-ref="HTTP_Request_configuration">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	Authorization : "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+		</http:request>
+			<set-variable value='#[%dw 2.0
+output application/json
+---
+vars.oMasterData mapObject ((value, key, index) -&gt; 
+	
+	if ( (key) ~= "idMapping" ) ("idMapping": (value default []) map ((idMap, mapData) -&gt; 
+			
+			if ( (idMap.id as String) == vars.vOrgId ) (idMap mapObject(( iValue,iKey,iIndex)-&gt;
+					if ( (iKey) ~= "environments" ) ("environments": ((payload.data filter ((item, index) -&gt; item.organizationId == vars.vOrgId))  default []) map ((envData, envDataIndex) -&gt;
+	
+	{
+	"orgId": envData.organizationId,
+	"orgName": vars.vOrgData.name,
+	"envName": envData.name,
+	"envId": envData.id,
+	"envType": envData."type",
+	"apps": []
+}
+	
+))
+else (iKey): iValue))
+			else (idMap)
+		))
+	else ((key): value))]' doc:name="Set Variable vMasterDataList" doc:id="8b81031d-0a8c-43a4-90fd-23cc5e0fadc6" variableName="vMasterDataList"/>
+		</foreach>
+		<set-payload value="#[vars.vMasterDataList]" doc:name="Set Payload" doc:id="eabd80f4-56a5-47ee-88d1-16d18f1aa3ef" />
+		<foreach doc:name="For Each Environment" doc:id="23c1e04f-fae1-4eb6-bbd7-9b64468628ca" collection="#[output application/json
+---
+flatten(vars.vMasterDataList..environments)]">
+			<set-variable value="#[payload.envId]" doc:name="Set Variable vEnvId" doc:id="5e1ebffd-dadb-4348-8ca9-b29d3956da43" variableName="vEnvId" />
+			<http:request method="GET" doc:name="Request GET ALL APPS BY ENV-ID" doc:id="c06ca96e-ab15-4a24-b09d-a22acd681304" path="/cloudhub/api/v2/applications?retrieveStatistics=true&amp;period=3600000&amp;retrieveLogLevels=true&amp;retrieveTrackingSettings=true&amp;retrieveIpAddresses=true" config-ref="HTTP_Request_configuration">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.vEnvId,
+	"Authorization" : "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+		</http:request>
+			<set-variable value="#[%dw 2.0
+output application/json
+---
+((vars.vMasterDataList.idMapping filter ((item, index) -&gt; 
+
+(flatten(item.environments..envId)) contains  vars.vEnvId
+
+))[0] default {}).id default null]" doc:name="Set Variable vOrgId" doc:id="0dffbc44-d060-490a-a301-3358a219e4fd" variableName="vOrgId"/>
+			<set-variable value='#[%dw 2.0
+output application/json
+---
+vars.vMasterDataList mapObject ((value, key, index) -&gt; 
+    if ( (key as String) == "idMapping" ) (key):  (value default []) map ((idMap, mapData) -&gt; 
+            if ( idMap.id == vars.vOrgId ) (idMap mapObject (( iValue,iKey,iIndex)-&gt; 
+                    if ( (iKey) ~= "environments" ) ((iKey): (iValue map ((envItem, envIndex) -&gt; 
+                                if ( envItem.envId == vars.vEnvId ) (envItem mapObject (( envValue,envKey,envIndex1)-&gt; 
+                        if ( (envKey as String) == "apps" ) ((envKey): payload map ((appData, index) -&gt; 
+{
+	"appName": appData.domain,
+	"fullDomain": appData.fullDomain,
+	"properties": appData.properties,
+	"appStatus": appData.status,
+	"jarName": appData.fileName,
+	"muleVersion": appData.muleVersion,
+	"region": appData.region
+}
+))   
+                        else ((envKey): envValue)))
+                                else (envItem)
+                            )))
+                    else ((iKey): iValue)))
+            else (idMap)
+        )
+    else ((key): value))]' doc:name="Set Variable vMasterDataList" doc:id="17e946b1-63f5-4c14-be19-2dbd462106dd" variableName="vMasterDataList" />
+		</foreach>
+		<set-payload value="#[vars.vMasterDataList]" doc:name="Set Payload" doc:id="df799096-7224-4ee2-9451-1e5cd7f8ea89" />
+		<os:store doc:name="Store Master Data" doc:id="b50b57cc-4c57-4c81-bbc0-f853f1277b78" key="#[payload.userInfo.id]" objectStore="Object_store">
+		</os:store>
+	</sub-flow>
+</mule>

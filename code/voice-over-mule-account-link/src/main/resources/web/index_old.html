@@ -1,0 +1,30 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://voice-over-mule-dev.s3.amazonaws.com/account-link-web/logic.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" https://voice-over-mule-dev.s3.amazonaws.com/account-link-web/fontawesome.min.css">
+  <title>Sign in</title>
+</head>
+
+<body>
+  <div class="main">
+    <p class="sign" align="center">Sign in</p>
+    <form class="form1" id="form1" action="https://voice-over-mule-account-link.us-e2.cloudhub.io/account-link/login" autocomplete="on" method="post">
+      <input class="un " type="text" align="center" name="username" id="username" required placeholder="Username">
+      <input class="pass" type="password" align="center" placeholder="Password" name="password" id="password" required>
+      
+      #[output application/java --- '<input type="hidden" id="client_id" name="client_id" value="' ++ payload.client_id ++ '">']
+       #[output application/java --- '<input type="hidden" id="response_type" name="response_type" value="' ++ payload.response_type ++ '">']
+        #[output application/java --- '<input type="hidden" id="state" name="state" value="' ++ payload.state ++ '">']
+         #[output application/java --- '<input type="hidden" id="redirect_uri" name="redirect_uri" value="' ++ payload.redirect_uri ++ '">']
+      
+      <button id="submit" class="submit" type="submit" align="center">Sign in</button>
+      <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+            
+                
+    </div>
+</body>
+
+</html>

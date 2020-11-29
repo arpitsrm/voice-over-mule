@@ -1,0 +1,135 @@
+displayName: <<object-name-post>>
+description: <<object-name-post>
+responses:
+  201:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<response-201-type>>
+        example: <<response-201-example>> 
+  400:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-400-data-error-example>>
+  401:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-401-unauthorized-example>>
+  403:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-403-forbidden-example>>
+  405:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-405-method-not-allowed-example>>
+  404:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-404-resource-not-found-example>>
+  415:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-415-unsupported-media-type-example>>
+  406:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-406-not-acceptable-example>>	
+  500:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-500-process-error-example>>
+  501:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-501-not-implemented-example>>
+  503:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-503-service-unavailable-example>>
+  504:
+    headers:
+      xh-transaction-id:
+        type: string
+      Content-Type: 
+        type: string
+        default: application/json
+    body:
+      application/json:
+        type: <<error-standard-type>>
+        example: <<error-504-gateway-timeout-example>>

@@ -1,0 +1,315 @@
+#%RAML 1.0
+title: VOM Alexa API
+baseUri: https://anypoint.apisero.com/vom/
+version: v1.0
+documentation:
+  - title: Overview
+    content: !include docs/Home.md
+  - title: How To Use The API?
+    content: !include docs/HowTo.md
+  - title: Error Handling
+    content: !include docs/ErrorHandling.md
+mediaType: application/json
+uses: 
+  AppOperationResponse: resources/libraries/response/AppOperationResponse.raml
+  AppOperationRequest: resources/libraries/request/AppOperationRequest.raml
+  
+  CreateAlertResponse: resources/libraries/response/CreateAlertResponse.raml
+  CreateAlertRequest: resources/libraries/request/CreateAlertRequest.raml
+  
+  FindAppStatusResponse: resources/libraries/response/FindAppStatusResponse.raml
+  FindAppStatusRequest: resources/libraries/request/FindAppStatusRequest.raml
+  
+  YesNoResponse: resources/libraries/response/YesNoResponse.raml
+  YesNoRequest: resources/libraries/request/YesNoRequest.raml
+  
+  LaunchResponse: resources/libraries/response/LaunchResponse.raml
+  LaunchRequest: resources/libraries/request/LaunchRequest.raml
+  
+  LinkAccountResponse: resources/libraries/response/LinkAccountResponse.raml
+  LinkAccountRequest: resources/libraries/request/LinkAccountRequest.raml
+
+  Errors: /exchange_modules/0ab110fe-6d25-4ced-84ab-89e0ce5ab169/error-response-canonical/1.0.0/ErrorResponseCanonical.raml
+
+resourceTypes: 
+  queryObjects: !include resources/resourceTypes/queryObjects.raml
+  createObjects: !include resources/resourceTypes/createObjects.raml
+
+traits:
+ chargeable:
+  headers:
+    xh-client-id:
+      type: string
+      required: false
+    xh-client-secret:
+      type: string
+      required: false
+ traceable:
+  headers:
+    xh-transaction-id:
+      type: string
+      required: false
+    Content-Type: 
+      type: string
+      required: false
+      default: application/json
+  
+ delegated:
+  headers:
+      username: 
+        type: string
+        required: false
+      userId: 
+        type: string
+        required: false
+      email: 
+        type: string
+        required: false
+      password: 
+        type: string
+        required: false
+      apAccessToken: 
+        type: string
+        required: false
+      issued: 
+        type: string
+        required: false
+      expires: 
+        type: string
+        required: false
+      display: 
+        type: boolean
+        required: false
+
+
+
+/alexa:    
+  /app-operation:
+    is: [traceable, delegated]
+    description: Used this method for app operations like start, stop or restart
+    type: 
+        createObjects : {
+          "object-name-post": "App Operation API",
+          "data-update-type": AppOperationRequest.AppOperationReq,
+          "data-update-example": !include resources/examples/request/AppOperationRequest.json,
+          "response-201-type": AppOperationResponse.AppOperationResp,
+          "response-201-field": "appOperation",
+          "response-201-example": !include resources/examples/response/AppOperationResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+  
+  /create-alert:
+    is: [traceable, delegated]
+    description: Used this method for creating alerts on api
+    type: 
+        createObjects : {
+          "object-name-post": "App Alerts API",
+          "data-update-type": CreateAlertRequest.CreateAlertReq,
+          "data-update-example": !include resources/examples/request/CreateAlertRequest.json,
+          "response-201-type": CreateAlertResponse.CreateAlertResp,
+          "response-201-field": "createAlert",
+          "response-201-example": !include resources/examples/response/CreateAlertResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+  /yes-no:
+    is: [traceable, delegated]
+    description: Used this method for Yes No interactions
+    type: 
+        createObjects : {
+          "object-name-post": "Yes No API",
+          "data-update-type": YesNoRequest.YesNoReq,
+          "data-update-example": !include resources/examples/request/YesNoRequest.json,
+          "response-201-type": YesNoResponse.YesNoResp,
+          "response-201-field": "yesNo",
+          "response-201-example": !include resources/examples/response/YesNoResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+         
+  /app-status:
+    is: [traceable, delegated]
+    description: Used this method for retreiving app status
+    type: 
+        createObjects : {
+          "object-name-post": "App Status API",
+          "data-update-type": FindAppStatusRequest.FindAppStatusReq,
+          "data-update-example": !include resources/examples/request/FindAppStatusRequest.json,
+          "response-201-type": FindAppStatusResponse.FindAppStatusResp,
+          "response-201-field": "appStatus",
+          "response-201-example": !include resources/examples/response/FindAppStatusResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+         
+  /help:
+    is: [traceable, delegated]
+    description: Used this method for retreiving app status
+    type: 
+        createObjects : {
+          "object-name-post": "App Status API",
+          "data-update-type": FindAppStatusRequest.FindAppStatusReq,
+          "data-update-example": !include resources/examples/request/FindAppStatusRequest.json,
+          "response-201-type": FindAppStatusResponse.FindAppStatusResp,
+          "response-201-field": "appStatus",
+          "response-201-example": !include resources/examples/response/FindAppStatusResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+        
+  
+
+  
+  /welcome:
+    is: [traceable, delegated]
+    description: Used this method for welcome screen
+    type: 
+        createObjects : {
+          "object-name-post": "App Launch API",
+          "data-update-type": LaunchRequest.LaunchReq,
+          "data-update-example": !include resources/examples/request/LaunchRequest.json,
+          "response-201-type": LaunchResponse.LaunchResp,
+          "response-201-field": "launch",
+          "response-201-example": !include resources/examples/response/LaunchResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+
+  
+  /account-link:
+    is: [traceable, delegated]
+    description: Used this method for linking amazon account to anypoint account
+    type: 
+        createObjects : {
+          "object-name-post": "App Account Link API",
+          "data-update-type": LinkAccountRequest.LinkAccountReq,
+          "data-update-example": !include resources/examples/request/LinkAccountRequest.json,
+          "response-201-type": LinkAccountResponse.LinkAccountResp,
+          "response-201-field": "linkAccountOperation",
+          "response-201-example": !include resources/examples/response/LinkAccountResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+        
+  /fallback:
+    is: [traceable, delegated]
+    description: Used this method for fallbacks
+    type: 
+        createObjects : {
+          "object-name-post": "App Launch API",
+          "data-update-type": LaunchRequest.LaunchReq,
+          "data-update-example": !include resources/examples/request/LaunchRequest.json,
+          "response-201-type": LaunchResponse.LaunchResp,
+          "response-201-field": "launch",
+          "response-201-example": !include resources/examples/response/LaunchResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }
+        
+  /exit:
+    is: [traceable, delegated]
+    description: Used this method for Exiting the skill
+    type: 
+        createObjects : {
+          "object-name-post": "App Launch API",
+          "data-update-type": LaunchRequest.LaunchReq,
+          "data-update-example": !include resources/examples/request/LaunchRequest.json,
+          "response-201-type": LaunchResponse.LaunchResp,
+          "response-201-field": "launch",
+          "response-201-example": !include resources/examples/response/LaunchResponse.json,
+         "error-standard-type": Errors.Standard,
+        "error-400-data-error-example": !include resources/examples/errors/error-400-data.json,
+        "error-401-unauthorized-example": !include resources/examples/errors/error-401-unauthorized.json,
+        "error-403-forbidden-example": !include resources/examples/errors/error-403-forbidden.json,
+        "error-405-method-not-allowed-example": !include resources/examples/errors/error-405-method-not-allowed.json,
+        "error-404-resource-not-found-example": !include resources/examples/errors/error-404-resource-not-found.json,
+        "error-415-unsupported-media-type-example": !include resources/examples/errors/error-415-unsupported-media-type.json,
+        "error-406-not-acceptable-example": !include resources/examples/errors/error-406-not-acceptable.json,
+        "error-500-process-error-example": !include resources/examples/errors/error-500-process.json,
+        "error-501-not-implemented-example": !include resources/examples/errors/error-501-not-implemented.json,
+        "error-503-service-unavailable-example": !include resources/examples/errors/error-503-service-unavailable.json,
+        "error-504-gateway-timeout-example": !include resources/examples/errors/error-504-gateway-timeout.json
+        }

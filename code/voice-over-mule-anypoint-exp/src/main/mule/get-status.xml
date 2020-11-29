@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="HTTP_Request_configuration_Anypoint_Platform" doc:name="HTTP Request configuration" doc:id="0326a0f9-f5fa-47d2-9194-949f38066e3b" enableCookies="false">
+		<http:request-connection protocol="HTTPS" host="anypoint.mulesoft.com" port="443"/>
+	</http:request-config>
+	<sub-flow name="sf-get-status" doc:id="b0fcdedf-c394-41f3-8f0c-2a35407b833e" >
+		<logger level="INFO" doc:name="LOG INFO" doc:id="188cbcf5-f9ac-4b69-b470-9d3ee1536420" message="Starting Mule Over Voice Alexa SYS Layer -- Get Status Subflow"/>
+		<set-variable value="#[attributes.uriParams.'appName']" doc:name="Set Variable vAppName" doc:id="ad94feba-252f-4c98-be05-ce3e6d6d6af0" variableName="vAppName"/>
+		<set-variable value="#[attributes.headers.'xh-env-id']" doc:name="Set Variable vEnvId" doc:id="0d6ef506-6df8-472a-bfc4-432190ec334b" variableName="vEnvId" />
+		<set-variable value="#[attributes.headers.'ap-access-token']" doc:name="Set Variable vAccessToken" doc:id="e1aef673-b465-4b76-8a1d-1d211342556f" variableName="vAccessToken"/>
+		<http:request method="GET" doc:name="Request GET APP STATISTICS" doc:id="8d52b420-c1cf-4935-a559-42d275b13777" path='#["/cloudhub/api/v2/applications/" ++ vars.vAppName ++ 
+"/dashboardStats?interval=3600000"]' config-ref="HTTP_Request_configuration">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.vEnvId,
+	"Authorization" : "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+			</http:request>
+		<logger level="INFO" doc:name="LOG INFO" doc:id="127f9f93-aba3-4191-857b-38c921f55656" message="Finishing Mule Over Voice Alexa SYS Layer -- Get Status Subflow"/>
+	</sub-flow>
+</mule>

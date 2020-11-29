@@ -1,0 +1,47 @@
+{
+  "userInfo": {
+    "firstName": "Arpit",
+    "accountType": "Trial"
+  },
+  "idMapping": [
+    {
+      "id": "887537db-be58-4008-9203-58d2af33c7d2",
+      "name": "Apisero",
+      "environments": [
+        {
+          "envName": "Design",
+          "orgId": "887537db-be58-4008-9203-58d2af33c7d2",
+          "envId": "20fa7f4b-e078-4164-9d1e-de56d556b547",
+          "envType": "design"
+        },
+        {
+          "envName": "Sandbox",
+          "orgId": "887537db-be58-4008-9203-58d2af33c7d2",
+          "envId": "d7d1a770-1382-4393-a278-34701b20795a",
+          "envType": "sandbox"
+        }
+      ]
+    },
+    {
+      "id": "bca3478b-7b35-4da5-86bf-72cbeac63b04",
+      "name": "Integration",
+      "environments": [
+        
+      ]
+    },
+    {
+      "id": "900af370-e3a2-4980-a270-9830f0fa5b98",
+      "name": "Shared",
+      "environments": [
+        
+      ]
+    },
+    {
+      "id": "5789dcc2-33b2-4937-99b0-93f3577c9356",
+      "name": "Sample",
+      "environments": [
+        
+      ]
+    }
+  ]
+}

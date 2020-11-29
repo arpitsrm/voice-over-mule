@@ -1,0 +1,82 @@
+{
+	"userInfo": {
+		"firstName": "Arpit",
+		"accountType": "Trial"
+	},
+	"idMapping": [
+		{
+			"id": "57790c7f-5b4b-49c8-993b-1912067e2b28",
+			"name": "Apisero",
+			"environments": [
+				{
+					"orgId": "57790c7f-5b4b-49c8-993b-1912067e2b28",
+					"orgName": "Apisero",
+					"envName": "Design",
+					"envId": "af8d2997-5aaf-4687-a3eb-e2aadb0d6239",
+					"envType": "design",
+					"apps": []
+				},
+				{
+					"orgId": "57790c7f-5b4b-49c8-993b-1912067e2b28",
+					"orgName": "Apisero",
+					"envName": "Sandbox",
+					"envId": "c624ded6-1e59-42ea-acc7-1332024efdaf",
+					"envType": "sandbox",
+					"apps": [
+						{
+							"appName": "operation-jumanji-us-morning",
+							"fullDomain": "operation-jumanji-us-morning.us-e2.cloudhub.io",
+							"properties": {
+								"mailChimp.config.names.campaigns": "SFV_1_MuleSoft_Execs,SFV_1_MuleSoft_West,SFV_1_MuleSoft_Global,SFV_1_MuleSoft_Canada,SFV_1_MuleSoft_NES,SFV_1_General,SFV_1_Apisero_Allhands",
+								"sendGrid.config.names": "Arpit Single Send 7"
+							},
+							"appStatus": "STARTED",
+							"jarName": "operation-jumanji-us-morning-1.0.0-mule-application.jar",
+							"muleVersion": {
+								"version": "4.2.2",
+								"updateId": "5f7cdf477f6ba8533e9d366b",
+								"latestUpdateId": "5fa15c7434b0b0567a62a864",
+								"endOfSupportDate": 1620000000000
+							},
+							"region": "us-east-2"
+						},
+						{
+							"appName": "operation-jumanji-india-morning",
+							"fullDomain": "operation-jumanji-india-morning.us-e2.cloudhub.io",
+							"properties": {
+								"mailChimp.config.names.campaigns": "Arpit Mail Chimp Campaign",
+								"sendGrid.config.names": "Arpit Single Send 7"
+							},
+							"appStatus": "UNDEPLOYED",
+							"jarName": "operation-jumanji-india-morning-1.0.0-mule-application.jar",
+							"muleVersion": {
+								"version": "4.2.2",
+								"updateId": "5f7cdf477f6ba8533e9d366b",
+								"latestUpdateId": "5fa15c7434b0b0567a62a864",
+								"endOfSupportDate": 1620000000000
+							},
+							"region": "us-east-2"
+						},
+						{
+							"appName": "operation-jumanji-salesforce",
+							"fullDomain": "operation-jumanji-salesforce.us-e2.cloudhub.io",
+							"properties": {
+								"mailChimp.config.names.campaigns": "SFV_1_SF,SFV_1_SF_Execs",
+								"sendGrid.config.names": "Arpit Single Send 7"
+							},
+							"appStatus": "STARTED",
+							"jarName": "operation-jumanji-salesforce-1.0.0-mule-application.jar",
+							"muleVersion": {
+								"version": "4.2.2",
+								"updateId": "5f7cdf477f6ba8533e9d366b",
+								"latestUpdateId": "5fa15c7434b0b0567a62a864",
+								"endOfSupportDate": 1620000000000
+							},
+							"region": "us-east-2"
+						}
+					]
+				}
+			]
+		}
+	]
+}

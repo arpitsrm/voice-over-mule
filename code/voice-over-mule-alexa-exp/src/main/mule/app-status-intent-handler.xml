@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="sf-search-app-name" doc:id="a6365a1a-639c-4806-a877-5fee8b8318cc" >
+		<choice doc:name="Did user say app search Keyword or App Number?" doc:id="34a3d664-73f7-4f20-903d-e915df8b7cc8">
+					<when expression='#[payload.request.intent.slots.appIdentifier.value != null and payload.request.intent.slots.appIdentifier.value != ""]'>
+						<logger level="INFO" doc:name="LOG INFO App Number Selected" doc:id="0edb40cb-2f3a-4ca4-b1cb-e0bafd04ed97" />
+						<set-variable value='#[%dw 2.0
+output application/json
+---
+(payload.request.intent.slots.appIdentifier..code default "") contains "ER_SUCCESS_MATCH"]' doc:name="Set Variable vSlotSuccess" doc:id="2af078a9-ae88-4bee-b992-43d8dd51371f" variableName="vSlotSuccess" />
+						<choice doc:name="Choice" doc:id="1f285b3d-bc6c-415d-84f6-6a1dcb1a3e95">
+					<when expression="#[vars.vSlotSuccess]">
+						<set-variable value='#[%dw 2.0
+output application/json
+
+---
+if(payload.session.attributes.orgId?) (payload.session.attributes.orgId) else ((flatten(payload.request.intent.slots.organization.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vOrgId" doc:id="cd113a4a-0a43-4c31-a338-444313f0ae06" variableName="vOrgId" />
+						<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.envId?) (payload.session.attributes.envId) else ((flatten(payload.request.intent.slots.environment.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vEnvId" doc:id="892e0752-bff2-4d20-b6d7-aa7d0741c18b" variableName="vEnvId" />
+						<set-variable value='#[%dw 2.0
+output application/json
+var searchTerm = (payload.request.intent.slots.appIdentifier.value default "0") as Number
+var appList = (flatten(((flatten(vars.vMasterMap.idMapping..environments) default []) filter ((item, index) -&gt; (item.orgId == vars.vOrgId and item.envId == vars.vEnvId))).apps default [])..appName default [])
+---
+(appList default [] filter ((item, index) -&gt; index == searchTerm - 1))[0] default ""]' doc:name="Set Variable vAppName" doc:id="35528ae1-b7d1-462c-8805-cbb905efd58c" variableName="vAppName" />
+						<http:request method="GET" doc:name="Request" doc:id="979aae44-8bc7-445f-aea4-5daca6a68233" config-ref="HTTP_Request_configuration_Anypoint_EXP" path="/anypoint/{appName}/statistics" target="vStats">
+							<http:headers><![CDATA[#[output application/java
+---
+{
+	"xh-env-id" : vars.vEnvId,
+	"user-id" : vars.vTokenPayload.userId,
+	"ap-access-token" : vars.vTokenPayload.apAccessToken
+}]]]></http:headers>
+							<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : vars.vAppName
+}]]]></http:uri-params>
+						</http:request>
+						<set-variable value='#[%dw 2.0
+output application/json
+
+var stats = ((vars.vStats.workerStatistics map
+        {
+            "cpu":{
+            	"percentage" : round($.statistics.cpu[1] as Number /0.0694444444444444),
+            	"Avg":(($.statistics.cpu[0]) as Number +($.statistics.cpu[1]) as Number) /2
+                 },
+	    "memory":{
+            	"percentage" : round($.statistics.memoryPercentageUsed[1] default 0),
+            	"Avg":$.statistics.memoryTotalMax
+            	}
+       })[0] default {})
+---
+{
+    "cpu": (stats.cpu.percentage default "0") ++ "%",
+    "memory": (stats.memory.percentage default "0") ++ "%"
+}]' doc:name="Set Variable vStats" doc:id="e1b60631-7d23-4d63-958f-855adccbb168" variableName="vStats" />
+		<set-variable value='#[%dw 2.0
+output application/json
+
+var appName = vars.vAppName
+var finalAppData = (flatten(vars.vMasterMap.idMapping.environments..apps default []) filter 
+		((item, index) -&gt; upper(item.appName) == upper(appName)))[0] default {}
+---
+{
+    "muleVersion": finalAppData.muleVersion.version,
+    "totalProps": sizeOf(finalAppData.properties default {}),
+    "appStatus": finalAppData.appStatus,
+    "region": finalAppData.region,
+    "cpu": vars.vStats.cpu,
+    "memory": vars.vStats.memory
+}]' doc:name="Copy_of_Set Variable vResponse" doc:id="86c67c54-4f23-4cf5-95b9-f5706038d032" variableName="vResponse" />
+						<ee:transform doc:name="DW App Final Status" doc:id="9357514f-99be-449a-98c0-c1a1521676d6">
+							<ee:message>
+						<ee:set-payload resource="dataweave/findAppStatusIntentResponse_FinalResult.dwl" />
+							
+
+
+</ee:message>
+						</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="DW App Final Status" doc:id="be248fa1-c8a1-4bce-b111-df9b665192a0">
+							<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_FinalResult_invalid_appNumber.dwl" />
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+						
+					
+</when>
+					<when expression='#[payload.request.intent.slots.appName.value != null and payload.request.intent.slots.appName.value != ""]'>
+						<logger level="INFO" doc:name="LOG INFO Search Term selected" doc:id="b2cf152a-bd4e-4940-8c9e-6af6867c1770" />
+				<set-variable value='#[%dw 2.0
+output application/json
+
+---
+if(payload.session.attributes.orgId?) (payload.session.attributes.orgId) else ((flatten(payload.request.intent.slots.organization.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vOrgId" doc:id="e90e39d7-c8a7-41d6-b898-a1b3bcb97a2f" variableName="vOrgId"/>
+				<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.envId?) (payload.session.attributes.envId) else ((flatten(payload.request.intent.slots.environment.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vEnvId" doc:id="b50457c9-b1c2-4b4c-995f-0d44a4260b7b" variableName="vEnvId"/>
+				<set-variable value='#[%dw 2.0
+output application/json
+---
+if((payload.request.intent.slots.appName.value default "") contains "search for" ) ( trim((payload.request.intent.slots.appName.value splitBy "search for")[1] default "") replace " " with "" ) else (payload.request.intent.slots.appName.value replace " " with "")]' doc:name="Set Variable vSearchTerm" doc:id="0494e55b-0a44-461f-8678-62f36a7d15e4" variableName="vSearchTerm"/>
+				<set-variable value="#[%dw 2.0
+output application/json
+---
+(flatten(((flatten(vars.vMasterMap.idMapping..environments) default []) filter ((item, index) -&gt; (item.orgId == vars.vOrgId and item.envId == vars.vEnvId))).apps default [])..appName default []) filter((item1, index1) -&gt; upper(item1) contains upper(vars.vSearchTerm))]" doc:name="Set Variable vAppList" doc:id="98d54c24-a310-42cd-a29a-c489899db61d" variableName="vAppList"/>
+				<ee:transform doc:name="Elicit Slot app search term" doc:id="2fae9401-71e0-4435-bd9e-60f4c9b94535">
+							<ee:message>
+						<ee:set-payload resource="dataweave/findAppStatusIntentResponse_AppName.dwl" />
+							
+</ee:message>
+						</ee:transform>
+					
+</when>
+			<otherwise>
+						<logger level="INFO" doc:name="LOG INFO App Number Selected" doc:id="688a4d86-6e1d-44d2-a48a-bf50516ed36c" />
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+						
+					
+</otherwise>
+				
+</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="e76cfbcc-6a8e-4ee4-8923-4c0ac4a8fe3c" />
+	</sub-flow>
+	<sub-flow name="sf-app-status-intent-handler" doc:id="7eee7bb1-daec-4d21-a5e5-d2a5c3c2101e" >
+		<logger level="INFO" doc:name="LOG INFO Starting app STatus Intent" doc:id="a14fa2a4-9884-4e88-a25e-1f6715f7e393" message="Starting app STatus Intent" />
+		<http:request method="POST" doc:name="Request to ANYPOINT EXP - Get Master Map" doc:id="1c3bd9a8-0853-476e-aea0-f3f50933fcf1" config-ref="HTTP_Request_configuration_Anypoint_EXP" path="${http.request.anypoint.exp.path.app-mapping}" target="vMasterMap">
+					<http:body><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"apAccessToken": vars.vTokenPayload.apAccessToken,
+	"userName": vars.vTokenPayload.userName,
+	"email": vars.vTokenPayload.email,
+	"userId": vars.vTokenPayload.userId
+}]]]></http:body>
+				</http:request>
+		<set-payload value="#[%dw 2.0
+output application/json
+---
+payload]" doc:name="Set Payload FInd App Status Intent Request" doc:id="ff27daf5-8263-467e-8042-2b776d4a82d9" mimeType="application/json" />
+		<choice doc:name="Choice" doc:id="2da0aafe-2f06-4393-a10d-8d1f119d0f17">
+					
+					<when expression="#[payload.request.dialogState == 'IN_PROGRESS' and 
+(payload.request.intent.slots.appIdentifier.value != null or 
+	payload.request.intent.slots.appName.value != null
+)]">
+						<logger level="INFO" doc:name="LOG INFO Got App Name or App Number Slot" doc:id="654abb9b-51de-4206-a84f-7d7bab4a5bd2" message="Got App Name or App Number Slot" />
+				<flow-ref doc:name="Refer to sf-search-app-name" doc:id="eeb74371-c38e-4d7f-bf98-73701fa9d64b" name="sf-search-app-name" />
+					
+
+
+</when>
+					<when expression="#[(payload.request.dialogState == 'IN_PROGRESS' and payload.request.intent.slots.environment.value != null)]">
+						<logger level="INFO" doc:name="LOG INFO Got ENV Slot" doc:id="bbd63f20-0716-47a6-951a-eb47fff49551" message="Got Env Slot" />
+				<set-variable value='#[%dw 2.0
+output application/json
+---
+(payload.request.intent.slots.environment..code default "") contains "ER_SUCCESS_MATCH"]' doc:name="Set Variable vSlotSuccess" doc:id="be749d1d-2760-4912-aa60-4cf1638cf143" variableName="vSlotSuccess" />
+				<set-variable value="#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.orgName?)(payload.session.attributes.orgName) else (payload.request.intent.slots.organization.value)]" doc:name="Set Variable vOrgName" doc:id="805b2906-8618-4813-b4f0-4ad820579036" variableName="vOrgName" />
+				<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.orgId?)(payload.session.attributes.orgId) else  ((flatten(payload.request.intent.slots.organization.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vOrgId" doc:id="bb78a3a4-b97a-4a06-93cd-4abfc214aa62" variableName="vOrgId" />
+				<choice doc:name="Choice" doc:id="64206526-4a3b-4afe-a9b2-90236d33f133">
+					<when expression="#[vars.vSlotSuccess]">
+						<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.envId?)(payload.session.attributes.envId) else  ((flatten(payload.request.intent.slots.environment.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vEnvId" doc:id="7c48cb92-8c58-4c44-b332-c279b0afdeec" variableName="vEnvId" />
+						<set-variable value="#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.envName?)(payload.session.attributes.envName) else  payload.request.intent.slots.environment.value]" doc:name="Set Variable vEnvName" doc:id="ec5887aa-6edb-40cc-83ff-3f6f4f1ae07c" variableName="vEnvName" />
+						<ee:transform doc:name="Elicit Slot appIdentifier" doc:id="cea7f974-c910-4b6f-a68f-1cfaa7562e81">
+							<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_Env.dwl" />
+							</ee:message>
+						</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="Elicit Slot appIdentifier" doc:id="0dbb2929-fa14-4d72-a500-f3931f0b8827">
+							<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_Env_invalid.dwl" />
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+				<logger level="INFO" doc:name="Logger" doc:id="c26d7ae0-3f24-4fef-b0c6-c871e8548e61" />
+					
+
+
+</when>
+					
+					<when expression="#[(payload.request.dialogState == 'IN_PROGRESS' and payload.request.intent.slots.organization.value != null)]">
+						<logger level="INFO" doc:name="LOG INFO Got Org Slot" doc:id="280efbd8-c753-4ba6-9026-dda94d5ea724" message="Got Org Slot" />
+						<set-variable value='#[%dw 2.0
+output application/json
+---
+(payload.request.intent.slots.organization..code default "") contains "ER_SUCCESS_MATCH"]' doc:name="Set Variable vSlotSuccess" doc:id="d782be5c-d523-4fbc-bfa6-d465378e3419" variableName="vSlotSuccess" />
+				<choice doc:name="Choice" doc:id="04b71b75-92c2-4ebe-ba9b-60842524749b">
+					<when expression="#[vars.vSlotSuccess]">
+						<set-variable value="#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.orgName?)(payload.session.attributes.orgName) else (payload.request.intent.slots.organization.value)]" doc:name="Set Variable vOrgName" doc:id="e4a232ce-32f7-4eb8-b5ea-9fa882a6afdb" variableName="vOrgName" />
+						<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.session.attributes.orgId?)(payload.session.attributes.orgId) else  ((flatten(payload.request.intent.slots.organization.resolutions.resolutionsPerAuthority..values)..value..id default [])[0] default "")]' doc:name="Set Variable vOrgId" doc:id="679b0b31-dad3-4228-b910-05f67848f9c2" variableName="vOrgId" />
+						<ee:transform doc:name="DW SET Find APp Status Intent Response" doc:id="8b61e9f0-b930-4ffd-ab5e-3a0dde87181f">
+					<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_Org.dwl" />
+					
+</ee:message>
+				</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="DW SET Find APp Status Intent Response" doc:id="96f9a31b-14b6-43e3-bfb4-ce2f52e97f78">
+							<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_Org_invalid_slot.dwl" />
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+				<logger level="INFO" doc:name="Logger" doc:id="58f9fce9-041e-4de8-93ba-fa0b364a1983" />
+					
+</when>
+					
+					<when expression="#[payload.request.dialogState == 'STARTED' and payload.request.intent.confirmationStatus == 'NONE']">
+						<logger level="INFO" doc:name="LOG INFO Find Status Dialogue started" doc:id="d7ea6cf4-f498-4228-b96c-a1494941f3ab" message="Find Status Dialogue started" />
+				<ee:transform doc:name="DW SET Find APp Status Intent Response" doc:id="df0cc3d8-1ac1-4bd2-ad5e-ec2d739ef36b">
+					<ee:message>
+								<ee:set-payload resource="dataweave/findAppStatusIntentResponse_First.dwl" />
+					
+
+</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="b787cdcf-51c2-489b-b574-cbd5c6eb6fc0" />
+					
+</when>
+					
+				</choice>
+	</sub-flow>
+</mule>

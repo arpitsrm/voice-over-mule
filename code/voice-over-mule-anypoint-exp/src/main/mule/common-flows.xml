@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<sub-flow name="cf-correlation-id" doc:id="01d99056-bb71-4ccc-a50c-cde05d6ec22e" >
+		<ee:transform doc:name="DW Set correaltionId" doc:id="5c17588b-db9b-478c-9a3b-4127c51fdc50" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dataweave/correlationId.dwl" variableName="correlationId" />
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

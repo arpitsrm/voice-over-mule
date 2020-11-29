@@ -1,0 +1,17 @@
+{
+  "errorCode": "XH-###-DATA-ERROR",
+  "transactionId": "10802010XJJA20072101EMITD2678E3AE23D",
+  "details": [
+    {
+      "code": "<ERROR CODE DEFINITION>",
+      "errors": [
+        {
+          "issue": "<Root Cause Issue>",
+          "remarks": ""
+        }
+      ]
+    }
+  ],
+  "message": "Encountered an error while processing a lead request",
+  "status": "FAILED"
+}

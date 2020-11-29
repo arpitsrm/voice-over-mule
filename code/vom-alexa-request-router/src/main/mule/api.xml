@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <flow name="api-main">
+        <http:listener path="/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[output application/java
+---
+{
+	("Location" : vars.vPath) if((vars.httpStatus default 200) == 302)
+}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:id="f041742f-64e9-4fcc-906b-fc8487a5bd9b" name="cf-correlation-id" doc:name="Refer to cf-correlation-id" />
+        <apikit:router config-ref="api-config" />
+    </flow>
+    <flow name="post:\alexa:application\json:api-config">
+        <flow-ref doc:name="Refer to sf-alexa-main-flow" doc:id="0154270c-72b1-4162-af07-b70f2a264026" name="sf-alexa-main-flow"/>
+    </flow>
+</mule>

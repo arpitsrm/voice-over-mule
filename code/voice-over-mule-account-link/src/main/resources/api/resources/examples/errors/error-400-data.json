@@ -1,0 +1,18 @@
+{
+  "errorCode": "XH-400-DATA-ERROR",
+  "transactionId": "10802010XJJA20072101EMITD2678E3AE23D",
+  "details": [
+    {
+      "code": "<ERROR CODE DEFINITION>",
+      "errors": [
+        {
+          "code": "string",
+          "message": "string"
+        }
+      ]
+    }
+  ],
+  "message": "Encountered an error while processing a lead request",
+
+  "status":" FAILED"
+}

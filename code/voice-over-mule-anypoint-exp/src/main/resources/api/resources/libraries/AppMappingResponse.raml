@@ -1,0 +1,134 @@
+#%RAML 1.0 Library
+types:
+  AppMappingResp:
+    description: |-
+      This gives back the anypoint login token.
+    type: object
+    properties:
+      userInfo:
+        type: object
+        required: false
+        properties:
+          firstName:
+            type: string | nil
+            required: false
+            example: "Arpit"
+            description: "firstName"
+          accountType:
+            type: string | nil
+            required: false
+            example: "Arpit"
+            description: "trial"
+          id:
+            type: string | nil
+            required: false
+            example: "dfdf33dd"
+            description: "id"
+      idMapping:
+        type: array
+        required: false
+        items:
+          type: object
+          properties:
+            id:
+              type: string | nil
+              required: false
+              example: "12121dfd"
+              description: "orgId"
+            name:
+              type: string | nil
+              required: false
+              example: "Apisero"
+              description: "name"
+            environments:
+              type: array
+              required: false
+              items:
+                type: object
+                properties:
+                  orgId:
+                    required: false
+                    type: string | nil
+                    example: "sdfs33"
+                    description: "orgId"
+                  orgName:
+                    required: false
+                    type: string | nil
+                    example: "Apisero"
+                    description: "orgName"
+                  envName:
+                    required: false
+                    type: string | nil
+                    example: "Development"
+                    description: "envName"
+                  envId:
+                    required: false
+                    type: string | nil
+                    example: "sdfs-sdfs"
+                    description: "envId"
+                  envType:
+                    required: false
+                    type: string | nil
+                    example: "design"
+                    description: "envType"
+                  apps:
+                    required: false
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        appName:
+                          required: false
+                          type: string | nil
+                          example: "operation-jumanji-salesforce"
+                          description: "appName"
+                        fullDomain:
+                          required: false
+                          type: string | nil
+                          example: "operation-jumanji-us-morning.us-e2.cloudhub.io"
+                          description: "fullDomain"
+                        properties:
+                          required: false
+                          type: object
+                        appStatus:
+                          required: false
+                          type: string | nil
+                          example: "STARTED"
+                          description: "appStatus"
+                        jarName:
+                          required: false
+                          type: string | nil
+                          example: "operation-jumanji-us-morning-1.0.0-mule-application.jar"
+                          description: "jarName"
+                        muleVersion:
+                          type: object
+                          required: false
+                          properties:
+                            version:
+                              required: false
+                              type: string | nil
+                              example: "4.2.2"
+                              description: "version"
+                            updateId:
+                              required: false
+                              type: string | nil
+                              example: "5f7cdf477f6ba8533e9d366b"
+                              description: "updateId"
+                            latestUpdateId:
+                              required: false
+                              type: string | nil
+                              example: "5fa15c7434b0b0567a62a864"
+                              description: "latestUpdateId"
+                            endOfSupportDate:
+                              required: false
+                              type: number | nil
+                              example: 1620000000000
+                              description: "endOfSupportDate"
+                        region:
+                          required: false
+                          type: string | nil
+                          example: "us-east-2"
+                          description: "region"
+
+                
+              

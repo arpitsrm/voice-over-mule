@@ -1,0 +1,33 @@
+#%RAML 1.0 Library
+types:
+  PostLoginReq:
+    description: |-
+      This api gets triggered on login page submit.
+    type: object
+    properties:
+      username:
+        required: true
+        type: string | nil
+        description: "username"
+      password:
+        required: true
+        type: string | nil
+        description: "password"
+      client_id:
+        required: true
+        type: string | nil
+        description: "client_id"
+      response_type:
+        required: true
+        type: string | nil
+        description: "response_type"
+      state:
+        required: true
+        type: string | nil
+        description: "state"
+      redirect_uri:
+        required: true
+        type: string | nil
+        description: "redirect_uri"
+      
+      

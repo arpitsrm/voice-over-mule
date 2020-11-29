@@ -1,0 +1,377 @@
+{
+    "user": {
+        "id": "9b0f90b4-124c-4528-a721-f2463259ece7",
+        "createdAt": "2020-09-02T05:29:52.083Z",
+        "updatedAt": "2020-11-08T18:36:12.022Z",
+        "organizationId": "887537db-be58-4008-9203-58d2af33c7d2",
+        "firstName": "Arpit",
+        "lastName": "Singh",
+        "email": "arpitsrm@gmail.com",
+        "phoneNumber": "9501973797",
+        "idprovider_id": "mulesoft",
+        "username": "arpitsrm9",
+        "enabled": true,
+        "deleted": false,
+        "lastLogin": "2020-11-08T18:36:00.000Z",
+        "mfaVerificationExcluded": false,
+        "mfaVerifiersConfigured": "false",
+        "type": "host",
+        "organizationPreferences": {},
+        "organization": {
+            "name": "Apisero",
+            "id": "887537db-be58-4008-9203-58d2af33c7d2",
+            "createdAt": "2020-09-02T05:29:52.083Z",
+            "updatedAt": "2020-09-30T19:02:33.126Z",
+            "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+            "clientId": "423122af8e0744d6aee665d9684cab2c",
+            "idprovider_id": "mulesoft",
+            "isFederated": false,
+            "parentOrganizationIds": [],
+            "subOrganizationIds": [
+                "900af370-e3a2-4980-a270-9830f0fa5b98",
+                "bca3478b-7b35-4da5-86bf-72cbeac63b04"
+            ],
+            "tenantOrganizationIds": [],
+            "mfaRequired": "no",
+            "domain": "apisero-7030",
+            "isMaster": true,
+            "subscription": {
+                "category": "Developer",
+                "type": "Trial",
+                "expiration": "2020-10-02T05:29:52.655Z"
+            },
+            "properties": {},
+            "entitlements": {
+                "createEnvironments": true,
+                "globalDeployment": false,
+                "createSubOrgs": true,
+                "hybrid": {
+                    "enabled": true
+                },
+                "hybridInsight": true,
+                "hybridAutoDiscoverProperties": true,
+                "vCoresProduction": {
+                    "assigned": 0,
+                    "reassigned": 0
+                },
+                "vCoresSandbox": {
+                    "assigned": 1,
+                    "reassigned": 0.8
+                },
+                "vCoresDesign": {
+                    "assigned": 1,
+                    "reassigned": 1
+                },
+                "staticIps": {
+                    "assigned": 0,
+                    "reassigned": 0
+                },
+                "vpcs": {
+                    "assigned": 0,
+                    "reassigned": 0
+                },
+                "vpns": {
+                    "assigned": 0,
+                    "reassigned": 0
+                },
+                "workerLoggingOverride": {
+                    "enabled": false
+                },
+                "mqMessages": {
+                    "base": 0,
+                    "addOn": 0
+                },
+                "mqRequests": {
+                    "base": 0,
+                    "addOn": 0
+                },
+                "objectStoreRequestUnits": {
+                    "base": 0,
+                    "addOn": 0
+                },
+                "objectStoreKeys": {
+                    "base": 0,
+                    "addOn": 0
+                },
+                "mqAdvancedFeatures": {
+                    "enabled": false
+                },
+                "gateways": {
+                    "assigned": 0
+                },
+                "designCenter": {
+                    "mozart": true,
+                    "api": true,
+                    "apiVisual": false,
+                    "apiExample": false
+                },
+                "partnersProduction": {
+                    "assigned": 0
+                },
+                "partnersSandbox": {
+                    "assigned": 0
+                },
+                "tradingPartnersProduction": {
+                    "assigned": 0
+                },
+                "tradingPartnersSandbox": {
+                    "assigned": 0
+                },
+                "loadBalancer": {
+                    "assigned": 0,
+                    "reassigned": 0
+                },
+                "externalIdentity": true,
+                "autoscaling": false,
+                "armAlerts": true,
+                "apis": {
+                    "enabled": true
+                },
+                "apiMonitoring": {
+                    "schedules": 0
+                },
+                "apiCommunityManager": {
+                    "enabled": false
+                },
+                "monitoringCenter": {
+                    "productSKU": 0
+                },
+                "apiQuery": {
+                    "enabled": false
+                },
+                "apiQueryC360": {
+                    "enabled": false
+                },
+                "angGovernance": {
+                    "level": -1
+                },
+                "crowd": {
+                    "hideApiManagerDesigner": true,
+                    "hideFormerApiPlatform": true,
+                    "environments": true
+                },
+                "cam": {
+                    "enabled": false
+                },
+                "exchange2": {
+                    "enabled": false
+                },
+                "crowdSelfServiceMigration": {
+                    "enabled": false
+                },
+                "kpiDashboard": {
+                    "enabled": false
+                },
+                "pcf": false,
+                "appViz": false,
+                "runtimeFabric": false,
+                "anypointSecurityTokenization": {
+                    "enabled": false
+                },
+                "anypointSecurityEdgePolicies": {
+                    "enabled": false
+                },
+                "runtimeFabricCloud": {
+                    "enabled": false
+                },
+                "serviceMesh": {
+                    "enabled": true
+                },
+                "messaging": {
+                    "assigned": 0
+                },
+                "workerClouds": {
+                    "assigned": 0,
+                    "reassigned": 0
+                }
+            }
+        },
+        "properties": {
+            "cs_auth": {
+                "activeOrganizationId": "900af370-e3a2-4980-a270-9830f0fa5b98"
+            }
+        },
+        "memberOfOrganizations": [
+            {
+                "parentName": null,
+                "parentId": null,
+                "domain": "apisero-7030",
+                "name": "Apisero",
+                "id": "887537db-be58-4008-9203-58d2af33c7d2",
+                "createdAt": "2020-09-02T05:29:52.083Z",
+                "updatedAt": "2020-09-30T19:02:33.126Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "423122af8e0744d6aee665d9684cab2c",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [],
+                "subOrganizationIds": [
+                    "900af370-e3a2-4980-a270-9830f0fa5b98",
+                    "bca3478b-7b35-4da5-86bf-72cbeac63b04"
+                ],
+                "tenantOrganizationIds": [],
+                "mfaRequired": "no",
+                "isMaster": true,
+                "subscription": {
+                    "category": "Developer",
+                    "type": "Trial",
+                    "expiration": "2020-10-02T05:29:52.655Z"
+                }
+            },
+            {
+                "parentName": "Apisero",
+                "parentId": "887537db-be58-4008-9203-58d2af33c7d2",
+                "domain": null,
+                "name": "Integration",
+                "id": "bca3478b-7b35-4da5-86bf-72cbeac63b04",
+                "createdAt": "2020-09-30T19:02:33.126Z",
+                "updatedAt": "2020-09-30T19:02:33.126Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "b4ce8825703c499689e1c2cf4fc95135",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2"
+                ],
+                "subOrganizationIds": [],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            },
+            {
+                "parentName": "Apisero",
+                "parentId": "887537db-be58-4008-9203-58d2af33c7d2",
+                "domain": null,
+                "name": "Shared",
+                "id": "900af370-e3a2-4980-a270-9830f0fa5b98",
+                "createdAt": "2020-09-30T19:01:46.429Z",
+                "updatedAt": "2020-09-30T19:02:10.095Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "a6224eaf8670482e923550fed2b39c8a",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2"
+                ],
+                "subOrganizationIds": [
+                    "5789dcc2-33b2-4937-99b0-93f3577c9356"
+                ],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            },
+            {
+                "parentName": "Shared",
+                "parentId": "900af370-e3a2-4980-a270-9830f0fa5b98",
+                "domain": null,
+                "name": "Sample",
+                "id": "5789dcc2-33b2-4937-99b0-93f3577c9356",
+                "createdAt": "2020-09-30T19:02:10.095Z",
+                "updatedAt": "2020-09-30T19:02:10.095Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "b28ac7ce16b24a7bb7a6f0644f831a22",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2",
+                    "900af370-e3a2-4980-a270-9830f0fa5b98"
+                ],
+                "subOrganizationIds": [],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            }
+        ],
+        "contributorOfOrganizations": [
+            {
+                "parentName": null,
+                "parentId": null,
+                "domain": "apisero-7030",
+                "name": "Apisero",
+                "id": "887537db-be58-4008-9203-58d2af33c7d2",
+                "createdAt": "2020-09-02T05:29:52.083Z",
+                "updatedAt": "2020-09-30T19:02:33.126Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "423122af8e0744d6aee665d9684cab2c",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [],
+                "subOrganizationIds": [
+                    "900af370-e3a2-4980-a270-9830f0fa5b98",
+                    "bca3478b-7b35-4da5-86bf-72cbeac63b04"
+                ],
+                "tenantOrganizationIds": [],
+                "mfaRequired": "no",
+                "isMaster": true,
+                "subscription": {
+                    "category": "Developer",
+                    "type": "Trial",
+                    "expiration": "2020-10-02T05:29:52.655Z"
+                }
+            },
+            {
+                "parentName": "Apisero",
+                "parentId": "887537db-be58-4008-9203-58d2af33c7d2",
+                "domain": null,
+                "name": "Integration",
+                "id": "bca3478b-7b35-4da5-86bf-72cbeac63b04",
+                "createdAt": "2020-09-30T19:02:33.126Z",
+                "updatedAt": "2020-09-30T19:02:33.126Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "b4ce8825703c499689e1c2cf4fc95135",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2"
+                ],
+                "subOrganizationIds": [],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            },
+            {
+                "parentName": "Apisero",
+                "parentId": "887537db-be58-4008-9203-58d2af33c7d2",
+                "domain": null,
+                "name": "Shared",
+                "id": "900af370-e3a2-4980-a270-9830f0fa5b98",
+                "createdAt": "2020-09-30T19:01:46.429Z",
+                "updatedAt": "2020-09-30T19:02:10.095Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "a6224eaf8670482e923550fed2b39c8a",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2"
+                ],
+                "subOrganizationIds": [
+                    "5789dcc2-33b2-4937-99b0-93f3577c9356"
+                ],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            },
+            {
+                "parentName": "Shared",
+                "parentId": "900af370-e3a2-4980-a270-9830f0fa5b98",
+                "domain": null,
+                "name": "Sample",
+                "id": "5789dcc2-33b2-4937-99b0-93f3577c9356",
+                "createdAt": "2020-09-30T19:02:10.095Z",
+                "updatedAt": "2020-09-30T19:02:10.095Z",
+                "ownerId": "9b0f90b4-124c-4528-a721-f2463259ece7",
+                "clientId": "b28ac7ce16b24a7bb7a6f0644f831a22",
+                "idprovider_id": "mulesoft",
+                "isFederated": false,
+                "parentOrganizationIds": [
+                    "887537db-be58-4008-9203-58d2af33c7d2",
+                    "900af370-e3a2-4980-a270-9830f0fa5b98"
+                ],
+                "subOrganizationIds": [],
+                "tenantOrganizationIds": [],
+                "mfaRequired": null,
+                "isMaster": false
+            }
+        ]
+    }
+}

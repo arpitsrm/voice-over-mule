@@ -1,0 +1,812 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "voice over mule",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StartOverIntent",
+                    "samples": []
+                },
+                {
+                    "name": "SelectCategoryIntent",
+                    "slots": [
+                        {
+                            "name": "mainCategory",
+                            "type": "mainCategory",
+                            "samples": [
+                                "{mainCategory}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "{mainCategory}"
+                    ]
+                },
+                {
+                    "name": "FindAppStatusIntent",
+                    "slots": [
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "samples": [
+                                "The application is in  {organization} organization",
+                                "My app lies under {organization}",
+                                "{organization}"
+                            ]
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "samples": [
+                                "its {environment}",
+                                "the environment name is {environment}",
+                                "My api lies under {environment} environment",
+                                "{environment}"
+                            ]
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "samples": [
+                                "search for {appName}",
+                                "{appIdentifier}"
+                            ]
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "find status of application with keyword {appName}",
+                        "find status of an application",
+                        "get me status of an app",
+                        "{appIdentifier}",
+                        "find status of {appName} app",
+                        "find status for {appName} application",
+                        "find app number {appIdentifier}",
+                        "search for {appName}",
+                        "find status of number {appIdentifier} app",
+                        "tell me my app status under {organization} organization in {environment} environment",
+                        "Find status of my app"
+                    ]
+                },
+                {
+                    "name": "AppOperationsIntent",
+                    "slots": [
+                        {
+                            "name": "start",
+                            "type": "appOperation",
+                            "samples": [
+                                "{start} an app",
+                                "{start}"
+                            ]
+                        },
+                        {
+                            "name": "salesforce",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{salesforce}"
+                            ]
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "samples": [
+                                "{appIdentifier}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "Perform operation on an app",
+                        "{appIdentifier}",
+                        "I want you to {start}",
+                        "{start} an app"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "AnimalType",
+                    "values": [
+                        {
+                            "id": "dog",
+                            "name": {
+                                "value": "dog",
+                                "synonyms": [
+                                    "puppy",
+                                    "dogs",
+                                    "puppies"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "cat",
+                            "name": {
+                                "value": "cat",
+                                "synonyms": [
+                                    "kitten",
+                                    "cats",
+                                    "kittens"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "rare_collection",
+                            "name": {
+                                "value": "rare collection",
+                                "synonyms": [
+                                    "rare",
+                                    "rare pet",
+                                    "exotic pet",
+                                    "exotic collection",
+                                    "rare animal",
+                                    "exotic animal",
+                                    "exotic animals",
+                                    "rare pets",
+                                    "exotic pets",
+                                    "unique pets",
+                                    "special pets",
+                                    "weird pets",
+                                    "different pets",
+                                    "rare animals",
+                                    "unique animals",
+                                    "special animals",
+                                    "weird animals",
+                                    "different animals",
+                                    "rare collection",
+                                    "unique collection",
+                                    "special collection",
+                                    "weird collection",
+                                    "different collection",
+                                    "bird",
+                                    "birds",
+                                    "rabbit",
+                                    "rabbits",
+                                    "bunny",
+                                    "bunnies",
+                                    "snake",
+                                    "snakes"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Action",
+                    "values": [
+                        {
+                            "id": "pet",
+                            "name": {
+                                "value": "pet",
+                                "synonyms": [
+                                    "play",
+                                    "tickle",
+                                    "pat",
+                                    "rub",
+                                    "snuggle"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Name",
+                    "values": [
+                        {
+                            "id": "RASCAL",
+                            "name": {
+                                "value": "rascal",
+                                "synonyms": [
+                                    "rascal the beagle",
+                                    "beagle",
+                                    "the beagle"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "BONBON",
+                            "name": {
+                                "value": "bonbon",
+                                "synonyms": [
+                                    "bonbon the poodle",
+                                    "poodle",
+                                    "the poodle"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "LARRY",
+                            "name": {
+                                "value": "larry",
+                                "synonyms": [
+                                    "larry the chihuahua",
+                                    "chihuahua",
+                                    "the chihuahua"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "CHESTER",
+                            "name": {
+                                "value": "chester",
+                                "synonyms": [
+                                    "chester the british short hair",
+                                    "british short hair",
+                                    "the british short hair"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "BELLE",
+                            "name": {
+                                "value": "belle",
+                                "synonyms": [
+                                    "belle the ragdoll",
+                                    "ragdoll",
+                                    "the ragdoll"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "KOKO",
+                            "name": {
+                                "value": "koko",
+                                "synonyms": [
+                                    "koko the miniature cat",
+                                    "miniature cat",
+                                    "the miniature cat"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "SCALES",
+                            "name": {
+                                "value": "scales",
+                                "synonyms": [
+                                    "scales the snake",
+                                    "snake",
+                                    "the snake"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "FEATHERS",
+                            "name": {
+                                "value": "feathers",
+                                "synonyms": [
+                                    "feathers the bird",
+                                    "bird",
+                                    "the bird"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "HOPS",
+                            "name": {
+                                "value": "hops",
+                                "synonyms": [
+                                    "hops the bunny",
+                                    "bunny",
+                                    "the bunny"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mainCategory",
+                    "values": [
+                        {
+                            "id": "extras",
+                            "name": {
+                                "value": "add ons",
+                                "synonyms": [
+                                    "utilities",
+                                    "extra",
+                                    "add ons",
+                                    "extras"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "rm",
+                            "name": {
+                                "value": "runtime manager",
+                                "synonyms": [
+                                    "rm",
+                                    "runtime manager",
+                                    "runtime"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "alerts",
+                            "name": {
+                                "value": "alerts",
+                                "synonyms": [
+                                    "notifications",
+                                    "alerts"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "organization",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "environment",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "appIdentifier",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "20",
+                                "synonyms": [
+                                    "twenty",
+                                    "20"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "19",
+                                "synonyms": [
+                                    "19",
+                                    "nineteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "18",
+                                "synonyms": [
+                                    "18",
+                                    "eighteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "17",
+                                "synonyms": [
+                                    "17",
+                                    "seventeen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "16",
+                                "synonyms": [
+                                    "16",
+                                    "sixteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "15",
+                                "synonyms": [
+                                    "15",
+                                    "fifteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "14",
+                                "synonyms": [
+                                    "14",
+                                    "fourteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "13",
+                                "synonyms": [
+                                    "13",
+                                    "thirteen"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "12",
+                                "synonyms": [
+                                    "12",
+                                    "twelve"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "11",
+                                "synonyms": [
+                                    "11",
+                                    "eleven"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "10",
+                                "synonyms": [
+                                    "10",
+                                    "ten"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "9",
+                                "synonyms": [
+                                    "9",
+                                    "nine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "8",
+                                "synonyms": [
+                                    "8",
+                                    "eight"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "7",
+                                "synonyms": [
+                                    "7",
+                                    "seven"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "6",
+                                "synonyms": [
+                                    "6",
+                                    "six"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "5",
+                                "synonyms": [
+                                    "5",
+                                    "five"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "4",
+                                "synonyms": [
+                                    "4",
+                                    "four"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "3",
+                                "synonyms": [
+                                    "3",
+                                    "three"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "2",
+                                "synonyms": [
+                                    "2",
+                                    "two"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "1",
+                                "synonyms": [
+                                    "1",
+                                    "one"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dummy"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "appOperation",
+                    "values": [
+                        {
+                            "id": "restart",
+                            "name": {
+                                "value": "restart",
+                                "synonyms": [
+                                    "restart",
+                                    "re-run",
+                                    "re deploy",
+                                    "re-deploy",
+                                    "re run"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "stop",
+                            "name": {
+                                "value": "stop",
+                                "synonyms": [
+                                    "shut off",
+                                    "close down",
+                                    "close",
+                                    "shut down",
+                                    "stop",
+                                    "undeploy"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "start",
+                            "name": {
+                                "value": "start",
+                                "synonyms": [
+                                    "start up",
+                                    "start",
+                                    "deploy",
+                                    "run"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "SelectCategoryIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "mainCategory",
+                            "type": "mainCategory",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1530728025884.1226554809176"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "FindAppStatusIntent",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "organization",
+                            "type": "organization",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.836252553047.1159574597265"
+                            }
+                        },
+                        {
+                            "name": "environment",
+                            "type": "environment",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.836252553047.1384991201098"
+                            }
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.790663994835.129220602503"
+                            }
+                        },
+                        {
+                            "name": "appName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "AppOperationsIntent",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "start",
+                            "type": "appOperation",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.755086702547.928769460937"
+                            }
+                        },
+                        {
+                            "name": "salesforce",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.755086702547.11365228685"
+                            }
+                        },
+                        {
+                            "name": "appIdentifier",
+                            "type": "appIdentifier",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.755086702547.861734554598"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1530728025884.1226554809176",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please select a category"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.836252553047.1159574597265",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "can you tell me the organization under which your app lies?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the organization"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please mention the business organization"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.836252553047.1384991201098",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Mention the environment name "
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the environment"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Can you tell me the environment under which your api lies?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the environment under {organization} organization"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.790663994835.129220602503",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please chose one of the apps. You can either say the app name keyword or number corresponding to the app"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Select an application. Please say the app number or you can say, search for, followed by your app name keyword"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.303477031096.1352519282510",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please select an app by key word or provide the number associated with it"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.755086702547.928769460937",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "please state the required operation. You can say start, stop or restart"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.755086702547.11365228685",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the app search keyword"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.755086702547.861734554598",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Please state the number correspoding to the app"
+                    }
+                ]
+            }
+        ]
+    }
+}

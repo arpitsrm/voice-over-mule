@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <flow name="api-main">
+        <http:listener path="/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[output application/java
+---
+{
+	(Location : vars.vPath) if(((vars.httpStatus as String) default "200") == "302")
+}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:id="f041742f-64e9-4fcc-906b-fc8487a5bd9b" name="cf-correlation-id" doc:name="Refer to cf-correlation-id" />
+        <choice doc:name="Choice" doc:id="0e3aeecf-65fb-4df2-a1cf-9209c87d4d3a" >
+			<when expression="#[attributes.headers['content-type'] default &quot;application/json&quot; contains &quot;application/x-www-form-urlencoded&quot;]">
+				<choice doc:name="Choice" doc:id="5929573a-ad5f-408f-bc88-3c689c1ccfb6">
+					<when expression='#[(payload.code != null and  payload.code != "" and payload.grant_type != null) or (payload.grant_type != null and payload.grant_type == "refresh_token")]'>
+						<flow-ref doc:name="Refer to post:\account-link\token:application\json:api-config" doc:id="8052fc84-3975-4f1a-ba4f-bc05bcf2645e" name="post:\account-link\token:application\json:api-config"/>
+						<logger level="INFO" doc:name="Logger" doc:id="8ce0c3d0-ef0d-4087-ae1a-467b6eb80dc5" />
+					</when>
+					<otherwise >
+						<flow-ref doc:name="Flow Reference" doc:id="eddf8607-78ae-4ec7-b59a-2c59180ad4eb" name="post:\account-link\login:application\json:api-config" />
+						<logger level="INFO" doc:name="Logger" doc:id="1aba9bb6-b740-4e45-a9eb-6b31dc2ce79c" />
+					</otherwise>
+				</choice>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="f982377b-d17c-4369-8602-3ecc547d8f01">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+				<apikit:router config-ref="api-config" />
+			</otherwise>
+		</choice>
+    </flow>
+    <flow name="get:\account-link\web:api-config">
+        <flow-ref doc:name="Refer to sf-get-login-page" doc:id="3cbfdc47-d17e-4e23-a56d-86870a51227f" name="sf-get-login-page" />
+    </flow>
+    <flow name="post:\account-link\login:application\json:api-config">
+        <!-- <http:listener doc:name="Listener" doc:id="aa38fb8f-27c3-44cc-b4c0-10c40ba95489" config-ref="HTTP_Listener_config" path="/account-link/login" allowedMethods="POST">
+			<http:response statusCode="302">
+				<http:headers><![CDATA[#[output application/java
+-&#45;&#45;
+{
+	Location : vars.vPath
+}]]]></http:headers>
+			</http:response>
+		</http:listener> -->
+		<flow-ref doc:name="Refer to sf-post-login" doc:id="c15445e1-cedf-4a18-9f7d-cd545f39c7d2" name="sf-post-login" />
+    </flow>
+    <flow name="post:\account-link\token:application\json:api-config">
+		<flow-ref doc:name="Refer to sf-exchange-token" doc:id="6273a7ae-1665-4cf5-8766-99c9f085bd94" name="sf-exchange-token"/>
+    </flow>
+</mule>

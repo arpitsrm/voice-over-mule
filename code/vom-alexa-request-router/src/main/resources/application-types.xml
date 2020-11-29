@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="response_launch_account_link" format="json">
+      <types:shape format="weave" example="examples/launch_account_link_response.json"><![CDATA[%dw 2.0
+
+type response_launch_account_link = {|
+  version: String, 
+  sessionAttributes: {|  |}, 
+  response: {|
+    outputSpeech: {|
+      "type": String, 
+      text: String
+    |}, 
+    card: {| "type": String |}, 
+    shouldEndSession: Boolean
+  |}
+|} {"example": "{\\\"version\\\":\\\"1.0\\\",\\\"sessionAttributes\\\":{},\\\"response\\\":{\\\"outputSpeech\\\":{\\\"type\\\":\\\"PlainText\\\",\\\"text\\\":\\\"Welcome to Voice Over Mule. You must have a Anypoint Platform account to use Voice over mule. Please use the Alexa app to link your Amazon account with your Anypoint Platform Account.\\\"},\\\"card\\\":{\\\"type\\\":\\\"LinkAccount\\\"},\\\"shouldEndSession\\\":true}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#f5b11331-56c4-466d-9214-14d51489bffb">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="response_launch_account_link"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

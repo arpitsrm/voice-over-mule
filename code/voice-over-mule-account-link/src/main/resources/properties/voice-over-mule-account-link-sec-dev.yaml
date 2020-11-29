@@ -1,0 +1,13 @@
+http:
+  request:
+    anypoint:
+      exp:
+        host: "voice-over-mule-anypoint-exp.us-e2.cloudhub.io"
+        #host: "localhost"
+        port: "80"
+        basePath: "/api/v1.0"
+        path:
+          app-mapping: "/app-mapping"
+          anypoint.token: "/anypoint/token"
+response:
+  timeout: "90000"

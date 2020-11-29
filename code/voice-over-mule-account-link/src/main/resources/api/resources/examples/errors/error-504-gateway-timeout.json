@@ -1,0 +1,6 @@
+{
+  "errorCode": "XH-504-GATEWAY-TIMEOUT-ERROR",
+  "transactionId": "10802010XJJA20072101EMITD2678E3AE23D",
+  "message": "Gateway timeout",
+  "status":" FAILED"
+}

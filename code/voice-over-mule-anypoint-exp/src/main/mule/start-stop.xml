@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="sf-start-stop-application" doc:id="12e65e50-42e6-4417-8e7e-698338d4cf09" >
+<logger level="INFO" doc:name="LOG INFO" doc:id="bf5f8b08-5259-4a9a-a5a4-f4342373fc96" message="Starting Mule Over Voice Alexa SYS Layer -- Start Stop Application Subflow"/>		
+<set-variable value="#[attributes.uriParams.'appName']" doc:name="Set Variable vAppName" doc:id="d6f86859-e407-432f-b594-50dcafc2e174" variableName="vAppName"/>
+		<set-variable value="#[payload.'xh-env-id']" doc:name="Set Variable vEnvId" doc:id="359ad276-e52f-40ab-98af-124c5b602087" variableName="vEnvId" />
+		<set-variable value="#[payload.'ap-access-token']" doc:name="Set Variable vAccessToken" doc:id="4aab2b48-a7b5-40c3-b731-d7842ae3e464" variableName="vAccessToken"/>
+		
+<set-variable value='#[payload."operation"]' doc:name="SET FV vOperationName" doc:id="4144e645-4718-4274-8fae-850a252fcc02" variableName="vOperationName"/>
+<try doc:name="Try" doc:id="39d16bc6-5e03-44a1-a93b-f55dc30a46f9" >
+			<http:request method="POST" doc:name="Request to Anypoint Platform - Update App Status" doc:id="1ba3531e-eeda-4128-b476-7401bc9c9e8d" config-ref="HTTP_Request_configuration" path="/cloudhub/api/applications/{appName}/status">
+			<http:body><![CDATA[#[{
+	"status": vars.vOperationName
+}]]]></http:body>
+			<http:headers><![CDATA[#[{
+	"X-ANYPNT-ENV-ID": attributes.headers."xh-env-id",
+	"Content-Type": "application/json",
+	"Authorization": "Bearer " ++ vars.vAccessToken
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : attributes.uriParams."appName"
+}]]]></http:uri-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="cb43ab6a-360f-41a9-ba1f-aea06eb5c726" >
+					<logger level="INFO" doc:name="Logger" doc:id="417bcd0e-81f2-41d8-bcba-b3bccd9b150b" message="Error while updating app status #[error]"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<logger level="INFO" doc:name="LOG INFO" doc:id="840a089b-b338-4b82-b1bb-49b2e1d096cb" message="Finishing Mule Over Voice Alexa SYS Layer -- Start Stop Application Subflow"/>
+	</sub-flow>
+</mule>

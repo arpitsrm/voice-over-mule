@@ -1,0 +1,6 @@
+{
+  "errorCode": "XH-403-FORBIDDEN-ERROR",
+  "transactionId": "10802010XJJA20072101EMITD2678E3AE23D",
+  "message": "The request was rejected. Verify that the credentials have the appropriate permissions.",
+  "status":" FAILED"
+}

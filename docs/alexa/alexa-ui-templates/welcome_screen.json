@@ -1,0 +1,114 @@
+{
+	"document": {
+		"type": "APL",
+		"version": "1.4",
+		"settings": {},
+		"theme": "light",
+		"import": [
+			{
+				"name": "alexa-layouts",
+				"version": "1.2.0"
+			}
+		],
+		"resources": [],
+		"styles": {},
+		"onMount": [],
+		"graphics": {},
+		"commands": {},
+		"layouts": {},
+		"mainTemplate": {
+			"parameters": [
+				"payload"
+			],
+			"items": [
+				{
+					"type": "AlexaTextList",
+					"id": "mainMenuList",
+					"headerTitle": "${payload.textListData.title}",
+					"headerBackButton": false,
+					"backgroundImageSource": "${payload.textListData.backgroundImage.sources[0].url}",
+					"backgroundBlur": false,
+					"backgroundColorOverlay": true,
+					"headerAttributionImage": "${payload.textListData.logoUrl}",
+					"listItems": "${payload.textListData.listItems}",
+					"hintText": "${payload.textListData.hintText}"
+				}
+			]
+		}
+	},
+	"datasources": {
+		"textListData": {
+			"type": "object",
+			"objectId": "textListSample",
+			"title": "WELCOME TO VOICE OVER MULE",
+			"backgroundImage": {
+				"contentDescription": null,
+				"smallSourceUrl": null,
+				"largeSourceUrl": null,
+				"sources": [
+					{
+						"url": "https://miro.medium.com/max/1000/1*jUfQFUUmocWGue5Czy99mw.png",
+						"size": "small",
+						"widthPixels": 0,
+						"heightPixels": 0
+					},
+					{
+						"url": "https://techseria.com/sites/default/files/2018-06/mulsoft.jpg",
+						"size": "large",
+						"widthPixels": 0,
+						"heightPixels": 0
+					}
+				]
+			},
+			"listItems": [
+				{
+					"primaryText": "Find app status",
+					"primaryAction": [
+						{
+							"type": "SetValue",
+							"componentId": "mainMenuList",
+							"property": "headerTitle",
+							"value": "${payload.textListData.listItems[0].primaryText} is selected"
+						}
+					]
+				},
+				{
+					"primaryText": "Perform App Operations",
+					"primaryAction": [
+						{
+							"type": "SetValue",
+							"componentId": "applicationList",
+							"property": "headerTitle",
+							"value": "${payload.textListData.listItems[1].primaryText} is selected"
+						}
+					]
+				},
+				{
+					"primaryText": "Create Alert",
+					"primaryAction": [
+						{
+							"type": "SetValue",
+							"componentId": "mainMenuList",
+							"property": "headerTitle",
+							"value": "${payload.textListData.listItems[2].primaryText} is selected"
+						}
+					]
+				},
+				{
+					"primaryText": "HELP",
+					"primaryAction": [
+						{
+							"type": "SetValue",
+							"componentId": "mainMenuList",
+							"property": "headerTitle",
+							"value": "${payload.textListData.listItems[2].primaryText} is selected"
+						}
+					]
+				}
+			],
+			"logoUrl": "https://www.apisero.com/wp-content/uploads/2020/02/Apisero-logo.png",
+			"hintText": "Try, \"Alexa, what is today's cheesy joke?\""
+		}
+	},
+	"sources": {}
+}

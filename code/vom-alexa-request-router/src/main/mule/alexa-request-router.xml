@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<sub-flow name="sf-alexa-intent-router" doc:id="e93f3163-fbad-45f8-a0e3-bfecf1e2d264" >
+		<choice doc:name="Choice" doc:id="c6c0ee7e-6aea-4aeb-a4e9-55fcc900e339">
+			
+			<when expression="#[(payload.request['type']) == 'IntentRequest' and payload.request.intent.name == &quot;YesNoIntent&quot;]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Yes No" doc:id="e3f99f61-33cd-484b-b299-0cad18c52565" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.yes-no}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="e21a69ca-ed10-44d1-af25-5486893bc283" />
+
+			
+</when>
+			
+			<when expression="#[((payload.request['type']) == 'IntentRequest' and payload.request.intent.name == &quot;CreateAlertIntent&quot;) or (vars.vUserEventIntent == &quot;CreateAlertIntent&quot;)]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Create Alert" doc:id="99f24ce6-5e61-4d3d-9938-ed986de550dd" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.create-alert}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="0e12990f-61f3-40af-821c-e8b73b840b13" />
+
+			
+</when>
+			
+			<when expression="#[(payload.request['type']) == 'IntentRequest' and payload.request.intent.name == &quot;AppOperationsIntent&quot; or (vars.vUserEventIntent == &quot;AppOperationsIntent&quot;)]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - App Operations" doc:id="463f5c97-2bcb-4226-8858-d1e729de0a69" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.app-operation}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="e3924546-7596-45ff-8a04-7b6ef0980414" />
+
+			
+</when>
+			<when expression="#[(payload.request['type']) == 'IntentRequest' and payload.request.intent.name == &quot;FindAppStatusIntent&quot; or (vars.vUserEventIntent == &quot;FindAppStatusIntent&quot;)]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Find App Status" doc:id="c2e27c1a-a457-4788-99a8-23adaa898c0f" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.app-status}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="20b36cdf-280c-44a3-aad5-795b31350756" />
+
+			
+</when>
+			<when expression="#[(payload.request['type']) == 'LaunchRequest']">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Launch" doc:id="775300fd-51f2-40d0-8131-c4931fe96eb2" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.launch}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="787ef656-f31f-4ffa-a56c-f8eada06635f" />
+			</when>
+			<when expression="#[((payload.request['type']) == 'IntentRequest' and payload.request.intent.name == 'AMAZON.HelpIntent') or (vars.vUserEventIntent == &quot;AMAZON.HelpIntent&quot;)]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Help" doc:id="5629f9ef-bba2-4129-9f6a-6f3a5f8990d7" config-ref="HTTP_Request_configuration_alexa-exp" path="/alexa/help">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="9db3a0dc-3a67-40b1-8d68-935b4809d9ca" />
+			</when>
+			<when expression="#[((payload.request['type']) == 'IntentRequest' and ((payload.request.intent.name) == 'AMAZON.StopIntent' or (payload.request.intent.name) == 'AMAZON.CancelIntent')) or (vars.vUserEventIntent == &quot;AMAZON.CancelIntent&quot; or vars.vUserEventIntent == &quot;AMAZON.StopIntent&quot;)]">
+				<http:request method="POST" doc:name="Request to Alexa EXP - Exit" doc:id="686ac03c-92f6-460b-b800-bea6f08b0fde" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.exit}">
+					<http:headers ><![CDATA[#[vars.vHeaderPayload]]]></http:headers>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="3442a86d-e317-4a08-bd40-396ae575786c" />
+			</when>
+			<when expression="#[(payload.request['type']) == 'SessionEndedRequest']">
+				<logger level="INFO" doc:name="Logger" doc:id="f861b737-464c-423a-9d2c-d09ba2244d32" />
+			</when>
+			<otherwise >
+				<http:request method="POST" doc:name="Request to Alexa EXP - FallBack" doc:id="20ce8760-d4ae-4f08-a351-d107942edeb0" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.fallback}"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="sf-alexa-main-flow" doc:id="7bb39e61-5ce9-423b-b5c9-841b7be547ac" >
+		<logger level="INFO" doc:name="Logger" doc:id="9bf3a28f-ec39-4f8c-8f81-feb631691735" message="#[payload]"/>
+		<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.context.System.device.supportedInterfaces != null and payload.context.System.device.supportedInterfaces."Alexa.Presentation.APL" != null)
+(
+	true
+)
+else (
+	false
+)]' doc:name="Set Variable vDisplay" doc:id="712237d6-32c8-4277-8ed5-f3a7e03fa366" variableName="vDisplay"/>
+		<set-variable value='#[%dw 2.0
+output application/json
+---
+if(payload.request."type" == "Alexa.Presentation.APL.UserEvent") 
+(payload.request.arguments[0].intentName default "")
+else
+(
+	""
+)]' doc:name="Set Variable vUserEventIntent" doc:id="fe145b27-5d39-45a0-bac8-45fb91b40248" variableName="vUserEventIntent"/>
+		<choice doc:name="Is Anypoint Platform Account Linked?" doc:id="57f40e86-8024-4dd2-9678-0d6b33d11ccd" >
+			<when expression='#[payload.context.System.user.accessToken != null and payload.context.System.user.accessToken != "null"]'>
+				<java:invoke-static method="verifyCode(java.lang.String)" doc:name="Invoke static" doc:id="71d79192-5254-4ad2-b8d4-0b10371e7f42" class="com.apisero.Application" target="vCodeInfo">
+					<java:args><![CDATA[#[{
+	"arg0": payload.context.System.user.accessToken
+}]]]></java:args>
+				</java:invoke-static>
+				<set-variable value='#[%dw 2.0
+output application/java
+---
+{
+	"username" : vars.vCodeInfo.username,
+	"userId" : vars.vCodeInfo.userId,
+	"email" : vars.vCodeInfo.email,
+	"password" : vars.vCodeInfo.password,
+	"apAccessToken" : vars.vCodeInfo.apAccessToken,
+	"issued" : vars.vCodeInfo.issued as String,
+	"expires" : vars.vCodeInfo.expires as String,
+	"display": vars.vDisplay,
+	"Content-Type": "application/json"
+}]' doc:name="Set Variable vHeaderPayload" doc:id="358de073-d499-41a1-bcdc-edfa924e043f" variableName="vHeaderPayload"/>
+				<flow-ref doc:name="Refer to sf-alexa-intent-router" doc:id="5044039a-d2a2-47f6-848a-a192ed3c8a1c" name="sf-alexa-intent-router" />
+			
+</when>
+			<otherwise >
+				<http:request method="POST" doc:name="Request to Alexa EXP Link Account" doc:id="7000c82f-9cb4-44f2-b349-f25e008819f3" config-ref="HTTP_Request_configuration_alexa-exp" path="${http.request.alexa.exp.path.link-account}"/>
+				<ee:transform doc:name="Transform Message" doc:id="ee913ec1-0a7c-4687-ae88-716ed4c94dfe" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+					
+			
+</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="74331cdb-66ac-4c31-bcc7-016d61041b50" message="#[payload]" />
+	</sub-flow>
+</mule>

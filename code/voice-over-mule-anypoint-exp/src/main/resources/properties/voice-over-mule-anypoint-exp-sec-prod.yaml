@@ -1,0 +1,18 @@
+http:
+  request:
+    alexa:
+      exp:
+        #host: "mule-worker-internal-mrcg-integ-human-resources-prc-dev.us-e1.cloudhub.io"
+        host: "localhost"
+        port: "9091"
+        basePath: "/api/v1.0"
+        path:
+          link-account: "/link-account"
+          launch: "/launch"
+          app-status: "/app-status"
+          app-operation: "/app-operation"
+          alert: "/alert"
+          chose-category: "/chose-category"
+          fallback: "/fallback"
+response:
+  timeout: "90000"

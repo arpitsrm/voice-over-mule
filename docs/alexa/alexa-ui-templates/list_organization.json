@@ -1,0 +1,106 @@
+{
+    "document": {
+        "type": "APL",
+        "version": "1.4",
+        "settings": {},
+        "theme": "dark",
+        "import": [
+            {
+                "name": "alexa-layouts",
+                "version": "1.2.0"
+            }
+        ],
+        "resources": [],
+        "styles": {},
+        "onMount": [],
+        "graphics": {},
+        "commands": {},
+        "layouts": {},
+        "mainTemplate": {
+            "parameters": [
+                "payload"
+            ],
+            "items": [
+                {
+                    "type": "AlexaTextList",
+                    "id": "organizationList",
+                    "headerTitle": "${payload.textListData.title}",
+                    "headerBackButton": false,
+                    "headerAttributionImage": "${payload.textListData.logoUrl}",
+                    "backgroundImageSource": "${payload.textListData.backgroundImage.sources[0].url}",
+                    "backgroundBlur": false,
+                    "backgroundColorOverlay": true,
+                    "listItems": "${payload.textListData.listItems}",
+                    "hintText": "${payload.textListData.hintText}"
+                }
+            ]
+        }
+    },
+    "datasources": {
+        "textListData": {
+            "type": "object",
+            "objectId": "textListSample",
+            "title": "ORGANIZATIONS",
+            "backgroundImage": {
+                "contentDescription": null,
+                "smallSourceUrl": null,
+                "largeSourceUrl": null,
+                "sources": [
+                    {
+                        "url": "https://st4.depositphotos.com/5727474/20291/v/600/depositphotos_202911022-stock-video-sci-technology-motion-graphic-background.jpg",
+                        "size": "small",
+                        "widthPixels": 0,
+                        "heightPixels": 0
+                    },
+                    {
+                        "url": "https://techseria.com/sites/default/files/2018-06/mulsoft.jpg",
+                        "size": "large",
+                        "widthPixels": 0,
+                        "heightPixels": 0
+                    }
+                ]
+            },
+            "listItems": [
+                {
+                    "primaryText": "Apisero India",
+                    "secondaryText": "IT service management company",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "organizationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[0].primaryText} is selected"
+                        }
+                    ]
+                },
+                {
+                    "primaryText": "Apisero USA",
+                    "secondaryText": "IT service management company",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "organizationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[1].primaryText} is selected"
+                        }
+                    ]
+                },
+                {
+                    "primaryText": "Apisero Canada",
+                    "secondaryText": "IT service management company",
+                    "primaryAction": [
+                        {
+                            "type": "SetValue",
+                            "componentId": "organizationList",
+                            "property": "headerTitle",
+                            "value": "${payload.textListData.listItems[1].primaryText} is selected"
+                        }
+                    ]
+                }
+            ],
+            "logoUrl": "https://www.apisero.com/wp-content/uploads/2020/02/Apisero-logo.png",
+            "hintText": "Try, \"Alexa, what is today's cheesy joke?\""
+        }
+    },
+    "sources": {}
+}

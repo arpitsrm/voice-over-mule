@@ -1,0 +1,29 @@
+#%RAML 1.0 Library
+types:
+  TokenResp:
+    description: |-
+      This gives back the anypoint login token.
+    type: object
+    properties:
+      accessToken:
+        type: string
+        required: true
+        example: "331-4scsdw-32"
+        description: "access_token"
+      userName:
+        type: string
+        required: true
+        example: "yyyyy"
+        description: "userName"
+      email:
+        type: string
+        required: true
+        example: "arpit.singh@apisero.com"
+        description: "email"
+      userId:
+        type: string
+        required: true
+        example: "mhgj876"
+        description: "userId"
+      
+      
